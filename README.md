@@ -4,9 +4,10 @@ Card play for two or more players known as [Mau Mau], [Mau-Mau], [Prší]
 and by other names.  The players are dealt each a hand of cards and the
 first player, who got rid of all his-her cards, wins the game.
 
-## Installation
+## Install and Run
 
     npm install mau-mau
+    ./node_modules/.bin/mau-mau
 
 ## Command-line interface
 
@@ -15,7 +16,6 @@ One-based index of the winning player is returned as the program exit code.
 
 ```text
 Usage: mau-mau [option]
-
 
 Options:
 

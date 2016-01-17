@@ -1,6 +1,6 @@
 {
   "name": "mau-mau",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Card game for 2 or more players, popular in Czech Republic, Germany and other lands",
   "homepage": "https://github.com/prantlf/mau-mau",
   "author": {
@@ -25,12 +25,9 @@
     "cards",
     "play",
     "mau-mau",
-    "mau"
+    "mau",
+    "prší"
   ],
-  "scripts": {
-    "start": "./bin/mau-mau -p human,smart",
-    "build": "gulp build"
-  },
   "bin": {
     "mau-mau": "./bin/mau-mau"
   },
