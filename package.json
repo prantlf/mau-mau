@@ -1,0 +1,75 @@
+{
+  "name": "mau-mau",
+  "version": "0.1.0",
+  "description": "Card game for 2 or more players, popular in Czech Republic, Germany and other lands",
+  "homepage": "https://github.com/prantlf/mau-mau",
+  "author": {
+    "name": "Ferdinand Prantl",
+    "email": "prantlf@gmail.com",
+    "url": "http://prantl.tk"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/prantlf/mau-mau/blob/master/LICENSE"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/prantlf/mau-mau.git"
+  },
+  "bugs": {
+    "url": "https://github.com/prantlf/mau-mau/issues"
+  },
+  "keywords": [
+    "cards",
+    "play",
+    "mau-mau",
+    "mau"
+  ],
+  "scripts": {
+    "start": "./node_modules/.bin/nodemon src/Application.js --exec ./node_modules/.bin/babel-node",
+    "build-node": "mkdir -p dist/node && ./node_modules/.bin/babel src -d dist/node --source-maps",
+    "build-browser": "mkdir -p dist/browser && ./node_modules/.bin/browserify src/Application.js -t [ babelify --sourceMap ] -d --outfile dist/browser/bundle.js",
+    "test": "mocha --compilers js:babel-register"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.3.14",
+    "babel-register": "^6.4.3",
+    "chalk": "^1.1.1",
+    "commander": "^2.9.0",
+    "figures": "^1.4.0",
+    "inquirer": "^0.11.2",
+    "localize": "~0.4.7"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.4.0",
+    "babel-core": "^6.4.0",
+    "babel-eslint": "~5.0.0-beta6",
+    "babel-plugin-transform-strict-mode": "^6.3.13",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "del": "^2.2.0",
+    "eslint": "~1.10.3",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^6.1.1",
+    "gulp-eslint": "~1.1.1",
+    "gulp-if": "^2.0.0",
+    "gulp-plumber": "~1.0.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.5.1",
+    "gulp-util": "^3.0.7",
+    "lodash": "^4.0.0",
+    "node-notifier": "~4.4.0",
+    "rimraf": "^2.5.0",
+    "run-sequence": "^1.1.5",
+    "semistandard": "~7.0.5",
+    "snazzy": "~2.0.1",
+    "yargs": "^3.32.0"
+  },
+  "semistandard": {
+    "ignore": [
+      "lib/"
+    ]
+  }
+}
