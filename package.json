@@ -1,6 +1,6 @@
 {
   "name": "mau-mau",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Card game for 2 or more players, popular in Czech Republic, Germany and other lands",
   "homepage": "https://github.com/prantlf/mau-mau",
   "author": {
@@ -28,10 +28,14 @@
     "mau"
   ],
   "scripts": {
-    "start": "./node_modules/.bin/nodemon src/Application.js --exec ./node_modules/.bin/babel-node",
-    "build-node": "mkdir -p dist/node && ./node_modules/.bin/babel src -d dist/node --source-maps",
-    "build-browser": "mkdir -p dist/browser && ./node_modules/.bin/browserify src/Application.js -t [ babelify --sourceMap ] -d --outfile dist/browser/bundle.js",
-    "test": "mocha --compilers js:babel-register"
+    "start": "./bin/mau-mau -p human,smart",
+    "build": "gulp build"
+  },
+  "bin": {
+    "mau-mau": "./bin/mau-mau"
+  },
+  "engines": {
+    "node": ">=0.12"
   },
   "dependencies": {
     "babel-polyfill": "^6.3.14",
