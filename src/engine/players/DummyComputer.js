@@ -5,7 +5,7 @@ class DummyComputer extends Computer {
 
   chooseCard() {
     var playableCards = this.game.rules.pickPlayableCards(this.hand);
-    // Play a random playable card from hand
+    // Play a random playable card from hand, do not change suits by queens
     return new Promise(function (resolve, reject) {
       if (playableCards.length) {
         let cardIndex = Math.trunc(playableCards.length * Math.random());
@@ -17,8 +17,8 @@ class DummyComputer extends Computer {
   }
 
   toString() {
-    return Computer.prototype.toString.apply(this, arguments) +
-           ' (' + i18n.translate('dummy') + ')';
+    return i18n.translate('dummy $[1]',
+      Computer.prototype.toString.apply(this, arguments));
   }
 
 }

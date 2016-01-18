@@ -12,7 +12,7 @@ class Computer extends Player {
   }
 
   toString() {
-    return i18n.translate('computer') + this.index;
+    return i18n.translate('computer$[1]', this.index);
   }
 
 }

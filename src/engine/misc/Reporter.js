@@ -21,7 +21,7 @@ class Reporter extends EventEmitter {
         })
         .on('game:started', () => {
           this.emit('reporter:message', i18n.translate(
-                  'each player was dealt with $[1] cards',
+                  'each player was dealt $[1] cards',
                   game.rules.cardsPerPlayer) + ', ' + i18n.translate(
                   '$[1] is on playing stack',
                   game.playingStack.peekAtTopCard()));
@@ -38,7 +38,7 @@ class Reporter extends EventEmitter {
     game.players.forEach(player => {
       player.hand
           .on('cards:dropped', (cards) => {
-            // Do not report cards the player was dealt with
+            // Do not report cards the player was dealt
             if (gameStarted) {
               // Cards can be dropped just by one
               let card = cards[0],
@@ -57,7 +57,7 @@ class Reporter extends EventEmitter {
             }
           })
           .on('cards:received', (cards) => {
-            // Do not report cards the player was dealt with
+            // Do not report cards the player was dealt
             if (gameStarted) {
               // Do not report the two cards drawn when a seven was seen
               if (player !== drawsTwo) {

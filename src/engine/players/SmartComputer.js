@@ -17,8 +17,8 @@ class SmartComputer extends Computer {
   }
 
   toString() {
-    return Computer.prototype.toString.apply(this, arguments) +
-           ' (' + i18n.translate('smart') + ')';
+    return i18n.translate('smart $[1]',
+      Computer.prototype.toString.apply(this, arguments));
   }
 
 }

@@ -16,7 +16,7 @@ class Human extends Player {
   }
   
   toString() {
-    return i18n.translate('human') + this.index;
+    return i18n.translate('human$[1]', this.index);
   }
   
 }

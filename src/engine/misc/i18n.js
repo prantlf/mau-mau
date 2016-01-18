@@ -65,28 +65,28 @@ var i18n = new Localize({
     'cs': 'odehraná hromádka'
   },
   // Players
-  'human': {
-    'de': 'Mensch',
-    'cs': 'člověk'
+  'human$[1]': {
+    'de': 'Mensch$[1]',
+    'cs': 'člověk$[1]'
   },
-  'computer': {
-    'de': 'Rechner',
-    'cs': 'počítač'
+  'computer$[1]': {
+    'de': 'Rechner$[1]',
+    'cs': 'počítač$[1]'
   },
-  'smart': {
-    'de': 'schlau',
+  'smart $[1]': {
+    'de': 'schlauer $[1]',
     'cs': 'chytrý'
   },
-  'dummy': {
-    'de': 'dumm',
-    'cs': 'hloupý'
+  'dummy $[1]': {
+    'de': 'dummer $[1]',
+    'cs': 'hloupý $[1]'
   },
   // Reporter
   '$[1] players started with $[2] cards ($[3] card decks)': {
     'de': '$[1] Spieler fingen mit $[2] Karten ($[3] Stapel) an',
     'cs': '$[1] hráči začali s $[2] kartami ($[3] balíčky)'
   },
-  'each player was dealt with $[1] cards': {
+  'each player was dealt $[1] cards': {
     'de': 'jeder Spieler kriegte $[1] Karten',
     'cs': 'každý hráč dostal $[1] karty'
   },
