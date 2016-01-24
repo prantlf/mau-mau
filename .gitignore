@@ -1,4 +1,8 @@
 .idea
+.coverdata
+.coverrun
 .vscode
+coverage
+dist/test
 node_modules
 out

@@ -1,8 +1,12 @@
+.babelrc
+.coverdata
+.coverrun
+.eslintrc
 .idea
 .vscode
-.babelrc
-.eslintrc
 .npmignore
+coverage
+dist/test
 gulpfile.js
 out
 src
