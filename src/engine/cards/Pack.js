@@ -14,7 +14,9 @@ class Pack extends EventEmitter {
 
   drawAllCards() {
     var cards = this.cards.splice(0, this.cards.length);
-    this.emit('cards:dropped', cards);
+    if (cards.length) {
+      this.emit('cards:dropped', cards);
+    }
     return cards;
   }
   

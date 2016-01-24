@@ -35,7 +35,7 @@ function chooseCard(player) {
                      i18n.translate(' and chooses $[1]',
                          i18n.translate(this.game.rules.chosenSuit)) :
                      '';
-    this.game.players.forEach(player => {
+    this.game.activePlayers.forEach(player => {
       console.log('  ' + i18n.translate('$[1] holds $[2] cards',
               player, player.hand.cardCount));
     });

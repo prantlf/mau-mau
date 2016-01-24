@@ -4,6 +4,8 @@ import PlayingStack from './PlayingStack';
 import Rules from './Rules';
 import EventEmitter from './../misc/EventEmitter';
 
+// Puts a game together; shuffles the cards and tells the players to play.
+
 class Game extends EventEmitter {
 
   constructor(options) {
@@ -11,41 +13,16 @@ class Game extends EventEmitter {
 
     options || (options = {});
 
-    this.players = [];
-    if (options.players) {
-      options.players.forEach(player => {
-        this.players.push(player);
-        player.attachGame(this);
-      });
-    }
-    this.currentPlayerIndex = 0;
-
-    this.deck = options.deck || new Deck();
-    this.drawingStack = new DrawingStack();
-    this.playingStack = new PlayingStack();
-
-    this.rules = options.rules || new Rules();
-    this.rules.attachGame(this);
-    // If the caller did not pass its own deck, use an additional
-    // pack of cards for every 5 players
-    if (!options.deck) {
-      let extraPacks = Math.trunc(this.players.length /
-                                  this.rules.playersPerPack);
-      while (--extraPacks >= 0) {
-        this.deck.putCardsToBottom(new Deck().drawAllCards());
-      }
-    }
-
-    if (options.prompt) {
-      this.prompt = options.prompt;
-      this.prompt.attachGame(this);
-    }
+    initializeRules.call(this, options);
+    initializePlayers.call(this, options);
+    initializeDeck.call(this, options);
+    initializePrompt.call(this, options);
 
     this.drawingStack.on('cards:dropped', checkForStacksTurnOver.bind(this));
   }
 
   get currentPlayer() {
-    return this.players[this.currentPlayerIndex];
+    return this.activePlayers[this.currentPlayerIndex];
   }
 
   start() {
@@ -68,6 +45,9 @@ class Game extends EventEmitter {
   }
 
   drawCard() {
+    if (this.drawingStack.cardCount === 0) {
+      this.emit('game:cannot-draw-cards');
+    }
     return this.drawingStack.drawCardFromTop();
   }
 
@@ -92,10 +72,58 @@ class Game extends EventEmitter {
       players: this.players,
       deck: this.deck,
       rules: this.rules,
-      prompt: this.prompt
+      prompt: this.prompt,
+      cardsPerPlayer: this.cardsPerPlayer,
+      playersPerPack: this.playersPerPack
     }));
   }
 
+}
+
+function initializeRules(options) {
+  this.rules = options.rules || new Rules();
+  this.rules.attachGame(this);
+  this.cardsPerPlayer = options.cardsPerPlayer ||
+    this.rules.defaultCardsPerPlayer;
+  this.playersPerPack = options.playersPerPack ||
+    this.rules.defaultPlayersPerPack;
+  this.continueToEnd = options.continueToEnd !== undefined ?
+    options.continueToEnd : this.rules.defaultContinueToEnd;
+}
+
+function initializePlayers(options) {
+  this.players = [];
+  if (options.players) {
+    options.players.forEach(player => {
+      this.players.push(player);
+      player.attachGame(this);
+    });
+  }
+  this.activePlayers = this.players.slice();
+  this.currentPlayerIndex = 0;
+  this.firstWinner = undefined;
+}
+
+function initializeDeck(options) {
+  this.deck = options.deck || new Deck();
+  // If the caller did not pass its own deck, use an additional
+  // pack of cards for every 4 players by default
+  if (!options.deck) {
+    let extraPacks = Math.trunc((this.players.length - 1) /
+      this.playersPerPack);
+    while (--extraPacks >= 0) {
+      this.deck.putCardsToBottom(new Deck().drawAllCards());
+    }
+  }
+  this.drawingStack = new DrawingStack();
+  this.playingStack = new PlayingStack();
+}
+
+function initializePrompt(options) {
+  if (options.prompt) {
+    this.prompt = options.prompt;
+    this.prompt.attachGame(this);
+  }
 }
 
 function checkForStacksTurnOver() {
@@ -111,9 +139,16 @@ function checkForStacksTurnOver() {
 }
 
 function advanceToOtherPlayer() {
-  if (this.currentPlayerIndex < this.players.length - 1) {
+  if (this.currentPlayerIndex < this.activePlayers.length - 1) {
     ++this.currentPlayerIndex;
   } else {
+    this.currentPlayerIndex = 0;
+  }
+}
+
+function advanceFromPartialWinner() {
+  this.activePlayers.splice(this.currentPlayerIndex, 1);
+  if (this.currentPlayerIndex === this.activePlayers.length) {
     this.currentPlayerIndex = 0;
   }
 }
@@ -129,8 +164,8 @@ function shuffleCards(cards) {
 }
 
 function dealCards() {
-  // The cards are given to each player one by one
-  var cardCount = this.rules.cardsPerPlayer;
+  // The cards are given to each player one by one, 4 by default
+  var cardCount = this.cardsPerPlayer;
   while (--cardCount >= 0) {
     this.players.forEach(function (player) {
       player.drawCard();
@@ -141,13 +176,17 @@ function dealCards() {
 function nextTurn() {
   this.rules.nextTurn()
       .then(() => {
-        var winner = this.rules.whoWins();
-        if (winner) {
-          // No change in this game as soon as a player wins
-          Object.freeze(this);
-          this.emit('game:finished', winner);
+        if (checkPartialWinner.call(this)) {
+          advanceFromPartialWinner.call(this);
         } else {
           advanceToOtherPlayer.call(this);
+        }
+        if (this.activePlayers.length === 1 ||
+            this.firstWinner && !this.continueToEnd) {
+          // No change in this game as soon as the one but last player wins
+          Object.freeze(this);
+          this.emit('game:finished', this.firstWinner);
+        } else {
           setTimeout(nextTurn.bind(this), 0);
           this.emit('game:next-turn');
         }
@@ -157,4 +196,14 @@ function nextTurn() {
       });
 }
 
+function checkPartialWinner() {
+  var winner = this.rules.whoWins();
+  if (winner) {
+    if (!this.firstWinner) {
+      this.firstWinner = winner;
+    }
+    this.emit('game:partial-win', winner);
+    return true;
+  }
+}
 export default Game;

@@ -77,6 +77,10 @@ var i18n = new Localize({
     'de': 'schlauer $[1]',
     'cs': 'chytrý'
   },
+  'average $[1]': {
+    'de': 'normaler $[1]',
+    'cs': 'průměrný'
+  },
   'dummy $[1]': {
     'de': 'dummer $[1]',
     'cs': 'hloupý $[1]'
@@ -117,6 +121,14 @@ var i18n = new Localize({
   '$[1] won': {
     'de': '$[1] gewinnte',
     'cs': '$[1] vyhrál'
+  },
+  '$[1] shed all cards': {
+    'de': '$[1] wurde alle Karten los',
+    'cs': '$[1] se zbavil všech karet'
+  },
+  '$[1] lost': {
+    'de': '$[1] verlierte',
+    'cs': '$[1] prohrál'
   },
   // Console prompt
   ' and chooses $[1]': {

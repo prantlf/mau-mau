@@ -3,7 +3,7 @@
 SCRIPT_DIRECTORY=$(dirname $0)
 
 GAME_COUNT=100
-PLAYERS=smart,dummy,smart,dummy
+PLAYERS=smart,average,dummy
 
 while getopts "g:hp:" OPTION; do
   case ${OPTION} in
@@ -15,8 +15,8 @@ while getopts "g:hp:" OPTION; do
       echo
       echo "    -g count     Set how many times to play a game (the default is 100)"
       echo "    -h           Print usage information"
-      echo "    -p players   Specify the player type and count (4 players - "
-      echo "                 \"smart,dummy,smart,dummy\" are the default)"
+      echo "    -p players   Specify the player type and count (3 players - "
+      echo "                 \"smart,average,dummy\" are the default)"
       exit 1
       ;;
     p)
@@ -31,7 +31,7 @@ PLAYER_COUNT=${#PLAYER_NAMES[@]}
 echo "Running mau-mau $GAME_COUNT times with players \"$PLAYERS\"..."
 
 for ((i = 0; i < $GAME_COUNT; ++i)); do
-  $SCRIPT_DIRECTORY/mau-mau -s -p $PLAYERS
+  $SCRIPT_DIRECTORY/mau-mau -s -p $PLAYERS --continue-to-end=no
   # Store the zero-based player index in the result array
   GAME_RESULTS[$i]=$(($? - 1))
 done
@@ -45,5 +45,5 @@ for i in ${GAME_RESULTS[@]}; do
 done
 
 for ((i = 0; i < $PLAYER_COUNT; ++i)); do
-  echo "computer$(($i + 1)) (${PLAYER_NAMES[$i]}) won ${PLAYER_WINS[$i]} times"
+  echo "${PLAYER_NAMES[$i]} computer$(($i + 1)) won ${PLAYER_WINS[$i]} times"
 done

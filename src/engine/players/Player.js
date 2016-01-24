@@ -15,8 +15,13 @@ class Player extends EventEmitter {
 
   drawCard() {
     var card = this.game.drawCard();
-    this.hand.takeCard(card);
-    this.emit('player:drawn', card);
+    // If the count of card decks is not balanced well with the count of
+    // players and the cards they are initially dealt, the drawing stack
+    // can run out of cards.
+    if (card) {
+      this.hand.takeCard(card);
+      this.emit('player:drawn', card);
+    }
   }
 
   playCard() {

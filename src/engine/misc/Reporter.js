@@ -22,17 +22,29 @@ class Reporter extends EventEmitter {
         .on('game:started', () => {
           this.emit('reporter:message', i18n.translate(
                   'each player was dealt $[1] cards',
-                  game.rules.cardsPerPlayer) + ', ' + i18n.translate(
+                  game.cardsPerPlayer) + ', ' + i18n.translate(
                   '$[1] is on playing stack',
                   game.playingStack.peekAtTopCard()));
           gameStarted = true;
         })
-        .on('game:finished', winner => {
+        .on('game:partial-win', winner => {
+          var message = winner === game.firstWinner ?
+                '$[1] won' : '$[1] shed all cards';
           this.emit('reporter:message', {
             playerIndex: game.players.indexOf(winner),
             important: true,
-            message: i18n.translate('$[1] won', winner)
+            message: i18n.translate(message, winner)
           });
+        })
+        .on('game:finished', winner => {
+          if (game.continueToEnd) {
+            let loser = game.activePlayers[0];
+            this.emit('reporter:message', {
+              playerIndex: game.players.indexOf(loser),
+              important: true,
+              message: i18n.translate('$[1] lost', loser)
+            });
+          }
         });
 
     game.players.forEach(player => {
@@ -75,7 +87,7 @@ class Reporter extends EventEmitter {
 
     game.rules
         .on('rule:take-turn', () => {
-          if (!game.players.indexOf(game.currentPlayer)) {
+          if (!game.activePlayers.indexOf(game.currentPlayer)) {
             this.emit('reporter:message', {
               divider: true,
               message: '---'

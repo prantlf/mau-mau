@@ -1,4 +1,4 @@
 {
   "presets": ["es2015"],
-  "plugins": ["transform-strict-mode"]
+  "plugins": ["transform-strict-mode", "transform-regenerator"]
 }

@@ -1,5 +1,7 @@
 import Pack from './../cards/Pack';
 
+// Implements what a hand with cards can do.
+
 class Hand extends Pack {
   
   takeCard(card) {
