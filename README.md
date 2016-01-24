@@ -152,7 +152,7 @@ your code using Gulp.
 
 ## Release History
 
- * 2016-01-24   v0.2.0   Add an average player, improve the smart one
+ * 2016-01-24   v0.2.1   Add an average player, improve the smart one
                          Make the game more configurable
  * 2016-01-18   v0.1.3   Improve choosing of the best card to play
                          Add German and Czech locales

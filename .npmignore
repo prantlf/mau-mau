@@ -1,12 +1,15 @@
 .babelrc
+.coveralls.yml
 .coverdata
 .coverrun
 .eslintrc
 .idea
-.vscode
 .npmignore
+.travis.yml
+.vscode
 coverage
 dist/test
 gulpfile.js
 out
 src
+test
