@@ -52,7 +52,6 @@
     "no-extra-semi": 1,            // disallow unnecessary semicolons
     "no-inner-declarations": 2,    // disallow function or variable declarations in nested blocks
 
-
     // Best Practices
     "curly": 2,                 // specify curly brace conventions for all control statements
     "no-eval": 2,               // disallow use of eval()
@@ -60,16 +59,12 @@
     "no-new-wrappers": 2,       // disallows creating new instances of String, Number, and Boolean
     "no-with": 2,               // disallow use of the with statement
 
-
     // Strict Mode
-
 
     // Variables
     "no-undef": 2,                   // disallow use of undeclared variables unless mentioned in a /*global */ block
 
-
     // Node.js
-
 
     // Stylistic Issues
     "array-bracket-spacing": [2, "never"], // enforce spacing inside array brackets (off by default)
@@ -80,11 +75,14 @@
     "object-curly-spacing": [2, "never"],  // require or disallow padding inside curly braces (off by default)
     "semi": 2,                             // require or disallow use of semicolons instead of ASI
 
-
     // ECMAScript 6
 
-
     // Legacy
-    "max-len": [1, 80, 2] // specify the maximum length of a line in your program (off by default)
+    "max-len": [1, 80, 2],           // specify the maximum length of a line in your program (off by default)
+    "max-depth": [2, 4],             // specify the maximum depth blocks can be nested
+    "max-nested-callbacks": [2, 3],  // set maximum depth of nested callbacks
+    "max-params": [2, 3],            // limit maximum number of parameters
+    "max-statements": [2, 12],       // specify the maximum number of statements allowed in a function
+    "complexity": [2, 6]             // set a cyclomatic complexity threshold
   }
 }
