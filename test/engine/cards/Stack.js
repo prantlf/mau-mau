@@ -6,63 +6,14 @@ import Ranks from '../../../node/engine/cards/Ranks';
 
 describe('Card stack', function () {
   
-  it('has the constructor for creation only', function () {
-    new Stack();
-    expect(function () {
-      Stack();
-    }).to.throw(TypeError);
-  });
+  var stack;
   
-  it('when empty, nothing can be drawn', function () {
-    var stack = new Stack();
-    var drawnCard = stack.drawCardFromTop();
-    expect(drawnCard).to.be.an('undefined');
-  });
-  
-  it('if empty, no event is emitted, when drawing a card', function () {
-    var stack = new Stack(),
-        emitted;
-    stack.on('cards:dropped', function (drawnCards) {
-      emitted = true;
-    });
-    stack.drawCardFromTop(),
-    expect(emitted).to.be.not.ok;
-  });
-  
-  it('allows drawing a card from the top', function () {
-    var stack = new Stack(),
-        cards = [
-          new Card(Suits.hearts, Ranks.seven),
-          new Card(Suits.bells, Ranks.eight)
-        ];
-    stack.cards = cards.slice();
-    var drawnCard = stack.drawCardFromTop();
-    expect(drawnCard).to.be.equal(cards[0]);
-    expect(stack.cards).to.have.length(1);
-    expect(stack.cards).to.have.members([cards[1]]);
-    expect(stack.cardCount).to.be.equal(1);
-  });
-  
-  it('emits an event about drawing a card', function () {
-    var stack = new Stack(),
-        cards = [
-          new Card(Suits.hearts, Ranks.seven),
-          new Card(Suits.bells, Ranks.eight)
-        ],
-        emitted;
-    stack.cards = cards.slice();
-    stack.on('cards:dropped', function (drawnCards) {
-      emitted = true;
-      expect(drawnCards).to.have.length(1);
-      expect(drawnCards).to.have.members([cards[0]]);
-    });
-    stack.drawCardFromTop();
-    expect(emitted).to.be.ok;
+  beforeEach(function () {
+    stack = new Stack();
   });
   
   it('allows putting cards to the bottom', function () {
-    var stack = new Stack(),
-        initialCards = [
+    var initialCards = [
           new Card(Suits.hearts, Ranks.seven)
         ],
         additionalCards = [
@@ -79,8 +30,7 @@ describe('Card stack', function () {
   });
   
   it('emits an event about putting a card', function () {
-    var stack = new Stack(),
-        initialCards = [
+    var initialCards = [
           new Card(Suits.hearts, Ranks.seven)
         ],
         additionalCards = [

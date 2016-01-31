@@ -129,8 +129,8 @@ function initializePrompt(options) {
 function checkForStacksTurnOver() {
   if (this.drawingStack.cardCount === 0) {
     this.emit('game:turning-over');
-    let topCard = this.playingStack.drawCardFromTop(),
-        usedCards = this.playingStack.drawAllCards();
+    let usedCards = this.playingStack.drawAllCards(),
+        topCard = usedCards.shift();
     shuffleCards.call(this, usedCards);
     this.drawingStack.putCardsToBottom(usedCards);
     this.playingStack.putCardOnTop(topCard);

@@ -1,7 +1,7 @@
-import Stack from './../cards/Stack';
+import Pack from './../cards/Pack';
 import i18n from '../misc/i18n';
 
-class PlayingStack extends Stack {
+class PlayingStack extends Pack {
   
   peekAtTopCard() {
     return this.cards[0];
