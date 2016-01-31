@@ -1,3 +1,6 @@
+// I should want to optimize the event removal without so many parameters
+/*eslint max-params: [2, 6]*/
+
 class EventEmitter {
 
   constructor() {
@@ -12,8 +15,12 @@ class EventEmitter {
       listeners.forEach((listener, index) => {
         listener.apply(this, parameters);
         let once = listeners.once;
-        if (once && once.indexOf(listener) >= 0) {
-          removeListener.call(this, listeners, listener, index);
+        if (once) {
+          let onceIndex = once.indexOf(listener);
+          if (onceIndex >= 0) {
+            removeListener.call(this, event, listener, listeners, index,
+              once, onceIndex);
+          }
         }
       });
     }
@@ -31,17 +38,12 @@ class EventEmitter {
     return this;
   }
 
-  addListener(event, listener) {
-    addListener.call(this, event, listener);
-    return this;
-  }
-
   removeListener(event, listener) {
     var listeners = this.listeners[event];
     if (listeners) {
       var index = listeners.indexOf(listener);
       if (index >= 0) {
-        removeListener.call(this, listeners, listener, index);
+        removeListener.call(this, event, listener, listeners, index);
       }
     }
   }
@@ -56,6 +58,8 @@ class EventEmitter {
 
 }
 
+EventEmitter.prototype.addListener = EventEmitter.prototype.on;
+
 function addListener(event, listener) {
   var listeners = this.listeners[event];
   if (!listeners) {
@@ -65,20 +69,26 @@ function addListener(event, listener) {
   return listeners;
 }
 
-function removeListener(listeners, listener, index) {
+function removeListener(event, listener, listeners, index, once, onceIndex) {
   if (listeners.length > 1) {
     listeners.splice(index, 1);
-    let once = listeners.once;
-    index = once && once.indexOf(listener);
-    if (index >= 0) {
-      if (once.length > 1) {
-        once.splice(index, 1);
-      } else {
-        delete listeners.once;
-      }
+    once || (once = listeners.once);
+    if (once) {
+      onceIndex !== undefined || (onceIndex = once.indexOf(listener));
+      removeOnceListener(listeners, once, onceIndex);
     }
   } else {
     delete this.listeners[event];
+  }
+}
+
+function removeOnceListener(listeners, once, onceIndex) {
+  if (onceIndex >= 0) {
+    if (once.length > 1) {
+      once.splice(onceIndex, 1);
+    } else {
+      delete listeners.once;
+    }
   }
 }
 
