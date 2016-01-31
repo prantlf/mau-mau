@@ -27,6 +27,9 @@ class Reporter extends EventEmitter {
                   game.playingStack.peekAtTopCard()));
           gameStarted = true;
         })
+        .on('game:turning-over', () => {
+          this.emit('reporter:message', 'Turning over the playing stack.');
+        })
         .on('game:partial-win', winner => {
           var message = winner === game.firstWinner ?
                 '$[1] won' : '$[1] shed all cards';

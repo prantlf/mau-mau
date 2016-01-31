@@ -1,6 +1,26 @@
 import Localize from 'localize';
 
-var i18n = new Localize({
+class I18N extends Localize {
+
+  setLocaleSafely(locale) {
+    var parsedLocale = /^[a-zA-Z]+/.exec(locale);
+    if (parsedLocale) {
+      parsedLocale = parsedLocale[0];
+      if (parsedLocale !== 'en') {
+        let translations = this.getTranslations();
+        // Check any text - seven card rank, for example.
+        if (translations['seven'][parsedLocale]) {
+          this.setLocale(parsedLocale);
+        } else {
+          throw new Error('Unsupported locale: "' + locale + '".');
+        }
+      }
+    }
+  }
+
+}
+
+export default new I18N({
   // Ranks
   'seven': {
     'de': 'Sieben',
@@ -85,6 +105,23 @@ var i18n = new Localize({
     'de': 'dummer $[1]',
     'cs': 'hloupý $[1]'
   },
+  // Organizer
+  'Two players are the minimum.': {
+    'de': 'Zweil spieler sind das Minimum.',
+    'cs': 'Minimum jsou dva hráči.'
+  },
+  'Invalid human player index.': {
+    'de': 'Falsche Nummer des menschlichen Spieler.',
+    'cs': 'Nesprávné číslo člověčího hráče.'
+  },
+  'Index of the human player out of range.': {
+    'de': 'Nummer des menschlichen Spieler außer den Grenzen.',
+    'cs': 'Číslo člověčího hráče mimo povolený rozsah.'
+  },
+  'Invalid player: "$[1]".': {
+    'de': 'Falscher Spieler: "$[1]".',
+    'cs': 'Nesprávný hráče: "$[1]".'
+  },
   // Reporter
   '$[1] players started with $[2] cards ($[3] card decks)': {
     'de': '$[1] Spieler fingen mit $[2] Karten ($[3] Stapel) an',
@@ -117,6 +154,10 @@ var i18n = new Localize({
   '$[1] had to draw two cards': {
     'de': '$[1] musste zwei Karten ziehen',
     'cs': '$[1] si musel líznout dvě karty'
+  },
+  'Turning over the playing stack.': {
+    'de': 'Ausgelegte karten werden umgedreht.',
+    'cs': 'Odehrané karty se vrací do paklu k lízání.'
   },
   '$[1] won': {
     'de': '$[1] gewinnte',
@@ -158,7 +199,19 @@ var i18n = new Localize({
   'Choose a suit': {
     'de': 'Wünsche sich die Farbe',
     'cs': 'Změň barvu na'
+  },
+  // play
+  'Invalid argument: "$[1]".': {
+    'de': 'Falscher Parameter: "$[1]".',
+    'cs': 'Nesprávný parameter: "$[1]".'
+  },
+  // Multilingual strings break the indentation checks.
+  /*eslint indent: 0*/
+  'Cannot draw cards any more.  Take additional card decks, \n\
+deal fewer cards, or reduce the count of players.': {
+    'de': 'Unmöglich Karten zu ziehen.  Nimm zusätzliche Stapel, \n' +
+          'verteile weniger Karten, oder reduziere die Zahl von Spielern.',
+    'cs': 'Nelze lízat karty.  Vezmi další balíčky karet, \n' +
+          'rozdej méně karet, nebo sniž počet hráčů.'
   }
 });
-
-export default i18n;
