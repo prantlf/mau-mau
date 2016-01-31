@@ -10,8 +10,11 @@ class Hand extends Pack {
   }
 
   dropCard(card) {
-    this.cards.splice(this.cards.indexOf(card), 1);
-    this.emit('cards:dropped', [card]);
+    var index = this.cards.indexOf(card);
+    if (index >= 0) {
+      this.cards.splice(index, 1);
+      this.emit('cards:dropped', [card]);
+    }
   }
 
   pickCards(filter) {
