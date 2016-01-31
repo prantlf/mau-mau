@@ -5,22 +5,25 @@ import Suits from '../../../node/engine/cards/Suits';
 import Ranks from '../../../node/engine/cards/Ranks';
 
 describe('Card pack', function () {
-  
+
+  var pack;
+
+  beforeEach(function () {
+    pack = new Pack();
+  });
+
   it('starts empty', function () {
-    var pack = new Pack();
     expect(pack.cards).to.be.empty;
     expect(pack.cardCount).to.be.equal(0);
   });
-  
+
   it('when empty, nothing can be drawn', function () {
-    var pack = new Pack();
     var drawnCards = pack.drawAllCards();
     expect(drawnCards).to.be.empty;
   });
-  
-  it('if empty, no event is emitted, when drawing a card', function () {
-    var pack = new Pack(),
-        emitted;
+
+  it('if empty, no event is emitted, when drawing all cards', function () {
+    var emitted;
     pack.on('cards:dropped', function (drawnCards) {
       emitted = true;
     });
@@ -29,7 +32,6 @@ describe('Card pack', function () {
   });
 
   it('can contain cards', function () {
-    var pack = new Pack();
     pack.cards = [
       new Card(Suits.hearts, Ranks.seven),
       new Card(Suits.bells, Ranks.eight)
@@ -38,11 +40,10 @@ describe('Card pack', function () {
   });
   
   it('allows drawing all cards', function () {
-    var pack = new Pack(),
-        cards = [
-          new Card(Suits.hearts, Ranks.seven),
-          new Card(Suits.bells, Ranks.eight)
-        ];
+    var cards = [
+      new Card(Suits.hearts, Ranks.seven),
+      new Card(Suits.bells, Ranks.eight)
+    ];
     pack.cards = cards.slice();
     var drawnCards = pack.drawAllCards();
     expect(pack.cards).to.be.empty;
@@ -52,8 +53,7 @@ describe('Card pack', function () {
   });
   
   it('emits an event about drawing all cards', function () {
-    var pack = new Pack(),
-        cards = [
+    var cards = [
           new Card(Suits.hearts, Ranks.seven),
           new Card(Suits.bells, Ranks.eight)
         ],

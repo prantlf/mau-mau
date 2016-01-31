@@ -11,7 +11,11 @@ describe('Card deck', function () {
     deck = new Deck();
   });
   
-  it('contains thirty-two cards', function () {
+  it('promises to always contain thirty-two cards', function () {
+    expect(Deck.cardCount).to.be.equal(32);
+  });
+  
+  it('every pack actually contains thirty-two cards', function () {
     expect(deck.cardCount).to.be.equal(32);
   });
   

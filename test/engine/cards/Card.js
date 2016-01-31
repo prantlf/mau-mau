@@ -21,7 +21,7 @@ describe('Card', function () {
     }).to.throw(TypeError);
   });
   
-  it('overrides toString', function () {
+  it('can print its name', function () {
     var card = new Card(Suits.hearts, Ranks.seven);
     expect(card.toString()).to.be.equal('seven hearts');
   });
