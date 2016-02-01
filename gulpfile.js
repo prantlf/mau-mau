@@ -16,6 +16,9 @@ var argv = require('yargs').argv,
     path = require('path'),
     run = require('run-sequence');
 
+// Support generators in the code transpiled by Babel when the tests are run
+require('babel-polyfill');
+
 // Do not stop gulp.watch after the first  build error
 var _gulpsrc = gulp.src;
 gulp.src = function () {
@@ -45,14 +48,14 @@ gulp.task('clean-test', function () {
 gulp.task('eslint-node', function () {
   return gulp.src(['src/**/*.js', '!src/browser/**/*.js', 'gulpfile.js'])
       .pipe(eslint())
-      .pipe(eslint.format())
+      .pipe(eslint.format('node_modules/eslint-friendly-formatter'))
       .pipe(eslint.failAfterError());
 });
 
 gulp.task('eslint-test', function () {
   return gulp.src(['test/**/*.js'])
       .pipe(eslint())
-      .pipe(eslint.format())
+      .pipe(eslint.format('node_modules/eslint-friendly-formatter'))
       .pipe(eslint.failAfterError());
 });
 
@@ -100,7 +103,13 @@ function runTestsWithCoverage() {
 gulp.task('coverage-node', function () {
   return runTestsWithCoverage()
       .pipe(coverage.format())
-      .pipe(gulp.dest('coverage'));
+      .pipe(gulp.dest('coverage'))
+      .pipe(coverage.enforce({
+        statements: 70,
+        blocks: 60,
+        lines: 90,
+        uncovered: 0 
+      }));
 });
 
 gulp.task('coveralls-node', function () {
@@ -127,7 +136,7 @@ gulp.task('build-node', function (done) {
 gulp.task('build', ['build-node']);
 
 gulp.task('test-node', ['build-node'], function (done) {
-  run('clean-test', 'eslint-test', 'babel-node-test', 'mocha-node', done);
+  run('clean-test', 'eslint-test', 'babel-node-test', 'coverage-node', done);
 });
 gulp.task('test', ['test-node']);
 
@@ -140,4 +149,4 @@ gulp.task('watch-test', ['watch-node'], function (done) {
       'watch-test-assets', done);
 });
 
-gulp.task('default', ['build']);
+gulp.task('default', ['test']);
