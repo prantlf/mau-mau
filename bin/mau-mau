@@ -1,4 +1,6 @@
 #!/usr/bin/env node
 
+// Support generators in the code transpiled by Babel
 require('babel-polyfill');
+
 require('../dist/node/node/play').default();

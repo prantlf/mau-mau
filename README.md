@@ -28,20 +28,21 @@ Options:
 
   -h, --help                    output usage information
   -V, --version                 output the version number
-  -p, --players <integer|list>  Player count (3 by default) or player list
-  -m, --human <integer>         One-based index of the human (no by default)
+  -p, --players <integer|list>  Player count (2-4 by default) or list
+  -m, --human <integer|random>  One-based index of the human player or the
+                                text "random" (nothing by default)
   -s, --silent                  No console output (false by default)
   -l, --language <locale>       Translation of texts (env.LANG by default)
-  --continue-to-end <yes|no>    Play until the last player remains with some
-                                cards in his hand (yes by default)
+  --continue-to-end <yes|no>    Play until the last player remains with
+                                some cards in his hand (yes by default)
   --cards-per-player <integer>  Number of cards that the players are dealt
                                 (4 by default)
   --players-per-deck <integer>  Player threshold to add another card deck
                                 (4 by default; 5 means another deck)
 
-Player list is a comma-delimited list of player implementations:
-"human", "smart", "average" and "dummy" identifiers are available.
-The default player list is "smart,average,dummy".
+Player list is a comma-delimited list of player implementations: "human",
+"smart", "average" and "dummy" identifiers are available.  A random
+combination of "smart,average,dummy" is the default.
 Supported locales: "en", "de", "cs".
 ```
 
@@ -52,9 +53,9 @@ Runs an unattended game with four computer-controlled players:
     mau-mau
 
 Starts a game with four players, three computer-controlled ones and one
-human-controlled as the second player:
+human-controlled at a random position:
 
-    mau-mau --players=4 --human=2
+    mau-mau --players=4 --human=random
 
 Starts a game with two players, two first one human and the second one
 smart computer-controlled one, interacting German:
@@ -152,6 +153,7 @@ your code using Gulp.
 
 ## Release History
 
+ * 2016-02-01   v0.3.0   Make the game opening more random
  * 2016-01-24   v0.2.1   Add an average player, improve the smart one
                          Make the game more configurable
  * 2016-01-18   v0.1.3   Improve choosing of the best card to play
