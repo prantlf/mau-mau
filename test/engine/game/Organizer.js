@@ -2,7 +2,7 @@ import 'babel-polyfill';
 import {expect} from 'chai';
 import Organizer from '../../../node/engine/game/Organizer';
 import Human from '../../../node/engine/players/Human';
-import DummyComputer from '../../../node/engine/players/DummyComputer';
+import PoorComputer from '../../../node/engine/players/PoorComputer';
 import AverageComputer from '../../../node/engine/players/AverageComputer';
 import SmartComputer from '../../../node/engine/players/SmartComputer';
 
@@ -69,7 +69,7 @@ describe('Game organizer', function () {
 
   it('can create a game with two specific players', function () {
     var game = Organizer.createGame({
-      players: 'smart,dummy'
+      players: 'smart,poor'
     });
     expect(game.players.length).to.be.equal(2);
   });
@@ -86,18 +86,18 @@ describe('Game organizer', function () {
     expect(playersFound[Human.prototype]).to.not.be.ok;
     expect(playersFound[SmartComputer.prototype]).to.be.ok;
     expect(playersFound[AverageComputer.prototype]).to.be.ok;
-    expect(playersFound[DummyComputer.prototype]).to.be.ok;
+    expect(playersFound[PoorComputer.prototype]).to.be.ok;
   });
 
   it('can create a game with all specific players', function () {
     var game = Organizer.createGame({
-      players: 'human,smart,average,dummy'
+      players: 'human,smart,average,poor'
     });
     expect(game.players.length).to.be.equal(4);
     expect(game.players[0]).to.be.an.instanceOf(Human);
     expect(game.players[1]).to.be.an.instanceOf(SmartComputer);
     expect(game.players[2]).to.be.an.instanceOf(AverageComputer);
-    expect(game.players[3]).to.be.an.instanceOf(DummyComputer);
+    expect(game.players[3]).to.be.an.instanceOf(PoorComputer);
   });
 
   it('fails to create a game with malformed human player index', function () {

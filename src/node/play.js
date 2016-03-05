@@ -1,6 +1,6 @@
 import Organizer from '../engine/game/Organizer';
 import Human from '../engine/players/Human';
-import DummyComputer from '../engine/players/DummyComputer';
+import PoorComputer from '../engine/players/PoorComputer';
 import AverageComputer from '../engine/players/AverageComputer';
 import SmartComputer from '../engine/players/SmartComputer';
 import Reporter from '../engine/misc/Reporter';
@@ -48,9 +48,9 @@ var propertyFile = path.join(__dirname, '../../../package.json'),
     .on('--help', function () {
       console.log('  Player list is a comma-delimited list' +
                   ' of player implementations: "human",');
-      console.log('  "smart", "average" and "dummy"' +
+      console.log('  "smart", "average" and "poor"' +
                   ' identifiers are available.  A random');
-      console.log('  variation of "smart,average,dummy" is the default.');
+      console.log('  variation of "smart,average,poor" is the default.');
       let translations = i18n.getTranslations(),
           // Take any text - seven card rank, for example.
           locales = Object.keys(translations['seven']);

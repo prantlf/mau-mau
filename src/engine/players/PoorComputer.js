@@ -5,7 +5,7 @@ import i18n from '../misc/i18n';
 // Plays a random playable card from his hand.  If the card is a queen,
 // he wishes the suit of a random remaining card in his hand.
 
-class DummyComputer extends Computer {
+class PoorComputer extends Computer {
 
   chooseCard() {
     var availableCards = this.hand.pickCards(),
@@ -21,7 +21,7 @@ class DummyComputer extends Computer {
   }
 
   toString() {
-    return i18n.translate('dummy $[1]',
+    return i18n.translate('poor $[1]',
       Computer.prototype.toString.apply(this, arguments));
   }
 
@@ -53,4 +53,4 @@ function pickRandomCard(cards) {
   return cards[cardIndex];
 }
 
-export default DummyComputer;
+export default PoorComputer;

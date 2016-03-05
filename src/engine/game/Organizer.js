@@ -1,6 +1,6 @@
 import Game from './Game';
 import Human from '../players/Human';
-import DummyComputer from '../players/DummyComputer';
+import PoorComputer from '../players/PoorComputer';
 import AverageComputer from '../players/AverageComputer';
 import SmartComputer from '../players/SmartComputer';
 import i18n from '../misc/i18n';
@@ -35,7 +35,7 @@ function createSpecificPlayers(players, human) {
         human: Human,
         smart: SmartComputer,
         average: AverageComputer,
-        dummy: DummyComputer
+        poor: PoorComputer
       },
       players = players.split(',').map(function (player) {
         player = player.trim().toLowerCase();
@@ -94,7 +94,7 @@ function* generateComputers() {
       yield new AverageComputer();
       break;
     case 2:
-      yield new DummyComputer();
+      yield new PoorComputer();
       break;
     }
   }

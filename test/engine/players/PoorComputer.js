@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import DummyComputer from '../../../node/engine/players/DummyComputer';
+import PoorComputer from '../../../node/engine/players/PoorComputer';
 import Game from '../../../node/engine/game/Game';
 import Card from '../../../node/engine/cards/Card';
 import Suits from '../../../node/engine/cards/Suits';
@@ -8,12 +8,12 @@ import Ranks from '../../../node/engine/cards/Ranks';
 // Avoid checking the describe() for maximum nested callbacks
 /*eslint max-nested-callbacks: [2, 4]*/ 
 
-describe('Dummy computer', function () {
+describe('Poor computer', function () {
   
   var game, player;
   
   beforeEach(function () {
-    player = new DummyComputer();
+    player = new PoorComputer();
     game = new Game({
       players: [player]
     });
@@ -97,7 +97,7 @@ describe('Dummy computer', function () {
   });
   
   it('can print its name', function () {
-    expect(player.toString()).to.match(/^dummy computer\d+$/);
+    expect(player.toString()).to.match(/^poor computer\d+$/);
   });
 
 });

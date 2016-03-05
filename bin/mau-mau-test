@@ -3,7 +3,7 @@
 SCRIPT_DIRECTORY=$(dirname $0)
 
 GAME_COUNT=100
-PLAYERS=smart,average,dummy
+PLAYERS=smart,average,poor
 
 while getopts "g:hp:" OPTION; do
   case ${OPTION} in
@@ -16,7 +16,7 @@ while getopts "g:hp:" OPTION; do
       echo "    -g count     Set how many times to play a game (the default is 100)"
       echo "    -h           Print usage information"
       echo "    -p players   Specify the player type and count (3 players - "
-      echo "                 \"smart,average,dummy\" are the default)"
+      echo "                 \"smart,average,poor\" are the default)"
       exit 1
       ;;
     p)

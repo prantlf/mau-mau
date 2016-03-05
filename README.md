@@ -41,8 +41,8 @@ Options:
                                 (4 by default; 5 means another deck)
 
 Player list is a comma-delimited list of player implementations: "human",
-"smart", "average" and "dummy" identifiers are available.  A random
-combination of "smart,average,dummy" is the default.
+"smart", "average" and "poor" identifiers are available.  A random
+combination of "smart,average,poor" is the default.
 Supported locales: "en", "de", "cs".
 ```
 
@@ -62,7 +62,7 @@ smart computer-controlled one, interacting German:
 
     mau-mau --players=human,smart --language=de
 
-Lets 50 games be played with a smart and dummy player implementations
+Lets 50 games be played with a smart and poor player implementations
 and gather results for each player:
 
 ```bash
@@ -70,10 +70,10 @@ and gather results for each player:
 WINS[1]=0
 WINS[2]=0
 for ((i = 0; i < 50; ++i)); do
-  mau-mau --silent --players=smart,dummy --continue-to-end=no
+  mau-mau --silent --players=smart,poor --continue-to-end=no
   WINS[$?]=$((${WINS[$?]} + 1))
 done
-echo "smart won ${WINS[1]} times, dummy ${WINS[2]} times"
+echo "smart won ${WINS[1]} times, poor ${WINS[2]} times"
 ```
 
 ## Rules
