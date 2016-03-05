@@ -70,23 +70,28 @@ function wishSuit(chosenCard, availableCards) {
   var otherCards = availableCards.filter(function (card) {
         return card !== chosenCard;
       }),
-      // Choose a card from the remaining cards, one for each
+      // Choose the best card from the remaining cards, one for each
       // suit, that the quuen can wish now
-      nextChosenCards = Object.keys(Suits).map(suit => {
-        var playableCards = this.game.rules.pickPlayableCardsForSuit(
-              otherCards, suit);
-        return suggestCard.call(this, otherCards, playableCards);
-      }),
+      nextChosenCards = Object.keys(Suits)
+        .map(suit => {
+          var playableCards = this.game.rules.pickPlayableCardsForSuit(
+                otherCards, suit);
+          return suggestCard.call(this, otherCards, playableCards);
+        })
+        .filter(function (card) {
+          return !!card;
+        }),
       // Pick a card in this order - seven, ace, other card, queen
       nextChosenCard = nextChosenCards.find(function (card) {
-        return card && card.rank === Ranks.seven;
+        return card.rank === Ranks.seven;
       }) || nextChosenCards.find(function (card) {
-        return card && card.rank === Ranks.ace;
+        return card.rank === Ranks.ace;
       }) || nextChosenCards.find(function (card) {
-        return card && card.rank !== Ranks.queen;
-      }) || nextChosenCards.find(function (card) {
-        return !!card;
-      });
+        return card.rank !== Ranks.queen;
+      }) ||
+      // If only queens remain in the hand, the chosen suit does
+      // not matter; let us return the suit of the first queen
+      nextChosenCards[0];
   return nextChosenCard.suit;
 }
 
@@ -106,12 +111,7 @@ function divideCardRanks(playableCards) {
         }
         return true;
       });
-  return {
-    otherCards: otherCards,
-    queens: queens,
-    sevens : sevens,
-    aces: aces
-  };
+  return {otherCards, queens, sevens, aces};
 }
 
 function pickRandomCard(cards) {

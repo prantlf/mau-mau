@@ -68,7 +68,7 @@ describe('Dummy computer', function () {
           done();
         });
   });
-  
+
   it('choose a random card from playable ones', function (done) {
     game.playingStack.cards = [new Card(Suits.bells, Ranks.eight)];
     player.hand.cards = [

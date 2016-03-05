@@ -57,7 +57,7 @@ function suggestCard(availableCards, playableCards) {
 
   // Prefer to "feed cards" the other players by sevens
   if (sevens.length) {
-    chosenCard = getMaximumCoveredSeven.call(this, sevens, playableCards);
+    chosenCard = getMaximumCoveredSeven.call(this, sevens, availableCards);
     // If there are just two players, avoid "being fed back" two cards
     // by another seven placed on ours; do not worry with more players
     if (!chosenCard.card && this.game.activePlayers.length > 2) {
@@ -70,7 +70,7 @@ function suggestCard(availableCards, playableCards) {
 
   // Prefer to "shed cards" quicker by a batch of aces
   if (!chosenCard.card && aces.length) {
-    chosenCard = getMaximumCoveredAce.call(this, aces, playableCards);
+    chosenCard = getMaximumCoveredAce.call(this, aces, availableCards);
     // If there are just two players, avoid an immediate drawing a single
     // card to let the other player play; do not worry with more players
     if (!chosenCard.card && this.game.activePlayers.length > 2) {
@@ -112,16 +112,37 @@ function suggestSuit(chosenCard, availableCards) {
   var otherCards = availableCards.filter(function (card) {
         return card !== chosenCard.card;
       }),
-      // Choose a card from the remaining cards, one for each
+      // Choose the best card from the remaining cards, one for each
       // suit, that the quuen can wish now
-      nextChosenCards = Object.keys(Suits).map(suit => {
-        var playableCards = this.game.rules.pickPlayableCardsForSuit(
-              otherCards, suit);
-        return suggestCard.call(this, otherCards, playableCards);
-      }),
-      // Pick the card, which allows us to shed the most cards
-      maximumCover = pickMaximumCover(nextChosenCards);
-  return maximumCover.card.suit;
+      nextChosenCardsPerSuit = Object.keys(Suits)
+        .map(suit => {
+          var playableCards = this.game.rules.pickPlayableCardsForSuit(
+                otherCards, suit);
+          return suggestCard.call(this, otherCards, playableCards);
+        }),
+      // Identify cards, which allow us to shed the most cards
+      {maximumCovers, maximumCover} =
+        filterMaximumCovers(nextChosenCardsPerSuit),
+      nextChosenCards = maximumCovers
+        .map(function (cardCover) {
+          return cardCover.card;
+        })
+        .filter(function (card) {
+          return !!card;
+        }),
+      // If some cards allow shedding the same number of cards,
+      // pick them in this order - seven, ace, other card, queen
+      nextChosenCard = nextChosenCards.find(function (card) {
+        return card.rank === Ranks.seven;
+      }) || nextChosenCards.find(function (card) {
+        return card.rank === Ranks.ace;
+      }) || nextChosenCards.find(function (card) {
+        return card.rank !== Ranks.queen;
+      }) ||
+      // If only queens remain in the hand, the chosen suit does
+      // not matter; let us return the suit of the first queen
+      nextChosenCards[0];
+  return nextChosenCard.suit;
 }
 
 function divideCardRanks(playableCards) {
@@ -140,12 +161,7 @@ function divideCardRanks(playableCards) {
         }
         return true;
       });
-  return {
-    otherCards: otherCards,
-    queens: queens,
-    sevens : sevens,
-    aces: aces
-  };
+  return {otherCards, queens, sevens, aces};
 }
 
 function pickRandomCard(cards) {
@@ -156,61 +172,73 @@ function pickRandomCard(cards) {
   };
 }
 
-function getMaximumCoveredSeven(sevens, playableCards) {
+function getMaximumCoveredSeven(sevens, availableCards) {
   // Compute which seven can help us shed the maximum card count
-  var covers = sevens.map(seven =>
-    getSevenCover.call(this, seven, playableCards));
+  var covers = sevens.map(seven => {
+    return {
+      card: seven,
+      count: getSevenCoverCount.call(this, seven, availableCards)
+    };
+  });
   return pickMaximumCover(covers);
 }
 
-function getSevenCover(seven, playableCards) {
-  var otherCards = playableCards.filter(function (card) {
+function getSevenCoverCount(seven, availableCards) {
+  var otherCards = availableCards.filter(function (card) {
         return card !== seven;
       }),
       // Check if the seven can be covered by a card, which lets
       // the other player play
       coveredBySingleCard = otherCards.find(function (card) {
-        return card.rank !== Ranks.seven && seven.suit === card.suit;
+        return card.rank !== Ranks.seven && card.rank !== Ranks.ace &&
+          seven.suit === card.suit;
       }),
       // Gather sevens, which could cover the current one
-      coversByOtherSeven = otherCards.map(card => {
+      coverCountsByOtherSeven = otherCards.map(card => {
         if (card.rank === Ranks.seven) {
-          let yetOtherCards = playableCards.filter(function (otherCard) {
-            return card !== otherCard;
-          });
-          return getSevenCover.call(this, card, yetOtherCards);
+          // Compute how many cards can cover this another seven
+          let yetOtherCards = otherCards.filter(function (otherCard) {
+                return card !== otherCard;
+              }),
+              coverCount = getSevenCoverCount.call(this, card, yetOtherCards);
+          return coverCount + 1;
         }
-      }).filter(function (cover) {
-        return cover && cover.count;
+        return 0;
       }),
       // Gather aces, which could cover the seven
-      coversByOtherAce = otherCards.map(card => {
+      coverCountsByOtherAce = otherCards.map(card => {
         if (card.rank === Ranks.ace && seven.suit === card.suit) {
-          let yetOtherCards = playableCards.filter(function (otherCard) {
-            return card !== otherCard;
-          });
-          return getAceCover.call(this, card, yetOtherCards);
+          // Compute how many cards can cover this another ace
+          let yetOtherCards = otherCards.filter(function (otherCard) {
+                return card !== otherCard;
+              }),
+              coverCount = getAceCoverCount.call(this, card, yetOtherCards);
+          return coverCount + 1;
         }
-      }).filter(function (cover) {
-        return cover && cover.count;
+        return 0;
       }),
       // Compute which seven or ace can help us shed the maximum card count
-      covers = coversByOtherSeven.concat(coversByOtherAce),
-      maximumCover = coveredBySingleCard ? {
-        card: seven,
-        count: 1
-      } : {count: 0};
-  return pickMaximumCover(covers,  maximumCover);
+      coverCounts = coverCountsByOtherSeven.concat(coverCountsByOtherAce),
+      maximumCoverCount = Math.max.apply(undefined, coverCounts);
+  // If the seven cannot be covered by another seven or ace,
+  // from which the most efficient would be picked, return 1,
+  // if other single card was found, otherwise 0
+  return maximumCoverCount || coveredBySingleCard && 1 || 0;
 }
 
-function getMaximumCoveredAce(aces, playableCards) {
+function getMaximumCoveredAce(aces, availableCards) {
   // Compute which ace can help us shed the maximum card count
-  var covers = aces.map(ace => getAceCover.call(this, ace, playableCards));
+  var covers = aces.map(ace => {
+    return {
+      card: ace,
+      count: getAceCoverCount.call(this, ace, availableCards)
+    };
+  });
   return pickMaximumCover(covers);
 }
 
-function getAceCover(ace, playableCards) {
-  var otherCards = playableCards.filter(function (card) {
+function getAceCoverCount(ace, availableCards) {
+  var otherCards = availableCards.filter(function (card) {
         return card !== ace;
       }),
       // Check if the ace can be covered by a card, which lets
@@ -220,38 +248,50 @@ function getAceCover(ace, playableCards) {
           ace.suit === card.suit;
       }),
       // Gather aces, which could cover the current one
-      coversByOtherAce = otherCards.map(card => {
+      coverCountsByOtherAce = otherCards.map(card => {
         if (card.rank === Ranks.ace) {
-          let yetOtherCards = playableCards.filter(function (otherCard) {
-            return card !== otherCard;
-          });
-          return getAceCover.call(this, card, yetOtherCards);
+          // Compute how many cards can cover this another ace
+          let yetOtherCards = otherCards.filter(function (otherCard) {
+                return card !== otherCard;
+              }),
+              coverCount = getAceCoverCount.call(this, card, yetOtherCards);
+          return coverCount + 1;
         }
-      }).filter(function (cover) {
-        return cover && cover.count;
+        return 0;
       }),
       // Gather sevens, which could cover the ace
-      coversByOtherSeven = otherCards.map(card => {
-        if (card.rank === Ranks.seven) {
-          let yetOtherCards = playableCards.filter(function (otherCard) {
-            return card !== otherCard;
-          });
-          return getSevenCover.call(this, card, yetOtherCards);
+      coverCountsByOtherSeven = otherCards.map(card => {
+        if (card.rank === Ranks.seven && ace.suit === card.suit) {
+          // Compute how many cards can cover this another seven
+          let yetOtherCards = otherCards.filter(function (otherCard) {
+                return card !== otherCard;
+              }),
+              coverCount = getSevenCoverCount.call(this, card, yetOtherCards);
+          return coverCount + 1;
         }
-      }).filter(function (cover) {
-        return cover && cover.count;
+        return 0;
       }),
       // Compute which ace or seven can help us shed the maximum card count
-      covers = coversByOtherAce.concat(coversByOtherSeven),
-      maximumCover = coveredBySingleCard ? {
-        card: ace,
-        count: 1
-      } : {count: 0};
-  return pickMaximumCover(covers,  maximumCover);
+      coverCounts = coverCountsByOtherAce.concat(coverCountsByOtherSeven),
+      maximumCoverCount = Math.max.apply(undefined, coverCounts);
+  // If the ace cannot be covered by another ace or seven,
+  // from which the most efficient would be picked, return 1,
+  // if other single card was found, otherwise 0
+  return maximumCoverCount || coveredBySingleCard && 1 || 0;
 }
 
-function pickMaximumCover(covers, maximumCover = {count: 0}) {
-  var maximumCovers = [maximumCover];
+function pickMaximumCover(covers) {
+  var {maximumCovers, maximumCover} = filterMaximumCovers(covers);
+  if (maximumCovers.length > 1) {
+    let coverIndex = Math.trunc(maximumCovers.length * Math.random());
+    maximumCover = maximumCovers[coverIndex];
+  }
+  return maximumCover;
+}
+
+function filterMaximumCovers(covers) {
+  var maximumCovers = [],
+      maximumCover = {count: 0};
   // Pick the card, which allows us to shed the most cards
   covers.forEach(function (cover) {
     if (cover.count > maximumCover.count) {
@@ -261,11 +301,7 @@ function pickMaximumCover(covers, maximumCover = {count: 0}) {
       maximumCovers.push(cover);
     }
   });
-  if (maximumCovers.length > 1) {
-    let coverIndex = Math.trunc(maximumCovers.length * Math.random());
-    maximumCover = maximumCovers[coverIndex];
-  }
-  return maximumCover;
+  return {maximumCovers, maximumCover};
 }
 
 export default SmartComputer;
