@@ -7,6 +7,8 @@ import Ranks from '../../../node/engine/cards/Ranks';
 
 // Avoid checking the describe() for maximum nested callbacks
 /*eslint max-nested-callbacks: [2, 4]*/ 
+// Avoid checking the describe() for maximum statements
+/*eslint max-statements: [2, 13]*/ 
 
 describe('Smart computer', function () {
   
@@ -87,18 +89,18 @@ describe('Smart computer', function () {
         });
       });
 
-    it('chooses that seven, which allows shedding more cards (ace included)',
-      function (done) {
-        testChooseCard(2, new Card(Suits.hearts, Ranks.seven), [
-          new Card(Suits.bells, Ranks.eight),
-          new Card(Suits.acorns, Ranks.seven),
-          new Card(Suits.bells, Ranks.ace),
-          new Card(Suits.bells, Ranks.seven)
-        ]).then(function (card) {
-          expect(card).to.be.equal(player.hand.cards[1]);
-          done();
+    it('chooses that seven, which allows shedding more cards, with ace',
+        function (done) {
+          testChooseCard(2, new Card(Suits.hearts, Ranks.seven), [
+            new Card(Suits.bells, Ranks.eight),
+            new Card(Suits.acorns, Ranks.seven),
+            new Card(Suits.bells, Ranks.ace),
+            new Card(Suits.bells, Ranks.seven)
+          ]).then(function (card) {
+            expect(card).to.be.equal(player.hand.cards[1]);
+            done();
+          });
         });
-      });
 
     it('still plays seven, if he has no other card to play', function (done) {
       testChooseCard(2, new Card(Suits.hearts, Ranks.seven), [
@@ -153,18 +155,19 @@ describe('Smart computer', function () {
       });
     });
 
-    it('chooses that ace, which allows shedding more cards (including seven)', function (done) {
-      testChooseCard(3, new Card(Suits.hearts, Ranks.ace), [
-        new Card(Suits.bells, Ranks.eight),
-        new Card(Suits.bells, Ranks.ace),
-        new Card(Suits.bells, Ranks.seven),
-        new Card(Suits.acorns, Ranks.ace),
-        new Card(Suits.acorns, Ranks.eight)
-      ]).then(function (card) {
-        expect(card).to.be.equal(player.hand.cards[3]);
-        done();
+    it('chooses that ace, which allows shedding more cards, with seven',
+      function (done) {
+        testChooseCard(3, new Card(Suits.hearts, Ranks.ace), [
+          new Card(Suits.bells, Ranks.eight),
+          new Card(Suits.bells, Ranks.ace),
+          new Card(Suits.bells, Ranks.seven),
+          new Card(Suits.acorns, Ranks.ace),
+          new Card(Suits.acorns, Ranks.eight)
+        ]).then(function (card) {
+          expect(card).to.be.equal(player.hand.cards[3]);
+          done();
+        });
       });
-    });
 
     it('still plays ace, if he has no other card to play', function (done) {
       testChooseCard(2, new Card(Suits.hearts, Ranks.seven), [
