@@ -1,2 +1,60 @@
-"use strict";function _interopRequireDefault(e){return e&&e.__esModule?e:{"default":e}}function _classCallCheck(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function _possibleConstructorReturn(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!=typeof t&&"function"!=typeof t?e:t}function _inherits(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}var _createClass=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}();Object.defineProperty(exports,"__esModule",{value:!0});var _Pack2=require("./../cards/Pack"),_Pack3=_interopRequireDefault(_Pack2),Hand=function(e){function t(){return _classCallCheck(this,t),_possibleConstructorReturn(this,Object.getPrototypeOf(t).apply(this,arguments))}return _inherits(t,e),_createClass(t,[{key:"takeCard",value:function(e){this.cards.splice(0,0,e),this.emit("cards:received",[e])}},{key:"dropCard",value:function(e){var t=this.cards.indexOf(e);t>=0&&(this.cards.splice(t,1),this.emit("cards:dropped",[e]))}},{key:"pickCards",value:function(e){return this.cards.filter(e||function(){return!0})}}]),t}(_Pack3["default"]);exports["default"]=Hand;
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Pack2 = require('./../cards/Pack');
+
+var _Pack3 = _interopRequireDefault(_Pack2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Implements what a hand with cards can do.
+
+var Hand = function (_Pack) {
+  _inherits(Hand, _Pack);
+
+  function Hand() {
+    _classCallCheck(this, Hand);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Hand).apply(this, arguments));
+  }
+
+  _createClass(Hand, [{
+    key: 'takeCard',
+    value: function takeCard(card) {
+      this.cards.splice(0, 0, card);
+      this.emit('cards:received', [card]);
+    }
+  }, {
+    key: 'dropCard',
+    value: function dropCard(card) {
+      var index = this.cards.indexOf(card);
+      if (index >= 0) {
+        this.cards.splice(index, 1);
+        this.emit('cards:dropped', [card]);
+      }
+    }
+  }, {
+    key: 'pickCards',
+    value: function pickCards(filter) {
+      return this.cards.filter(filter || function () {
+        return true;
+      });
+    }
+  }]);
+
+  return Hand;
+}(_Pack3.default);
+
+exports.default = Hand;
 //# sourceMappingURL=Hand.js.map

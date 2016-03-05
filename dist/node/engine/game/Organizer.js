@@ -1,2 +1,170 @@
-"use strict";function _interopRequireDefault(e){return e&&e.__esModule?e:{"default":e}}function _toConsumableArray(e){if(Array.isArray(e)){for(var r=0,a=Array(e.length);r<e.length;r++)a[r]=e[r];return a}return Array.from(e)}function _classCallCheck(e,r){if(!(e instanceof r))throw new TypeError("Cannot call a class as a function")}function createPlayers(e){var r;return r=null==e.players?2+Math.trunc(3*Math.random()):parseInt(e.players,10),isNaN(r)?createSpecificPlayers(e.players,e.human):createRandomPlayers(r,e.human)}function createSpecificPlayers(e,r){var a={human:_Human2["default"],smart:_SmartComputer2["default"],average:_AverageComputer2["default"],dummy:_DummyComputer2["default"]},e=e.split(",").map(function(e){e=e.trim().toLowerCase();var r=a[e];if(!r)throw new Error(_i18n2["default"].translate('Invalid player: "$[1]".',e));return new r}),t=parseHumanIndex(r,e.length+1);if(t&&e.splice(t-1,0,new _Human2["default"]),e.length<2)throw new Error(_i18n2["default"].translate("Two players are the minimum."));return e}function createRandomPlayers(e,r){if(2>e)throw new Error(_i18n2["default"].translate("Two players are the minimum."));var a=parseHumanIndex(r,e),t=generateComputers();return[].concat(_toConsumableArray(Array(e).keys())).map(function(e){return e+1===a?new _Human2["default"]:t.next().value})}function parseHumanIndex(e,r){if("random"===e)return 1+Math.trunc(Math.random()*r);if(null!=e){var a=parseInt(e,10);if(isNaN(a))throw new Error(_i18n2["default"].translate("Invalid human player index."));if(1>a||a>r)throw new Error(_i18n2["default"].translate("Index of the human player out of range."));return a}}function generateComputers(){var e;return regeneratorRuntime.wrap(function(r){for(;;)switch(r.prev=r.next){case 0:e=Math.trunc(3*Math.random()),r.t0=e,r.next=0===r.t0?4:1===r.t0?7:2===r.t0?10:13;break;case 4:return r.next=6,new _SmartComputer2["default"];case 6:return r.abrupt("break",13);case 7:return r.next=9,new _AverageComputer2["default"];case 9:return r.abrupt("break",13);case 10:return r.next=12,new _DummyComputer2["default"];case 12:return r.abrupt("break",13);case 13:r.next=0;break;case 15:case"end":return r.stop()}},_marked[0],this)}var _createClass=function(){function e(e,r){for(var a=0;a<r.length;a++){var t=r[a];t.enumerable=t.enumerable||!1,t.configurable=!0,"value"in t&&(t.writable=!0),Object.defineProperty(e,t.key,t)}}return function(r,a,t){return a&&e(r.prototype,a),t&&e(r,t),r}}();Object.defineProperty(exports,"__esModule",{value:!0});var _Game=require("./Game"),_Game2=_interopRequireDefault(_Game),_Human=require("../players/Human"),_Human2=_interopRequireDefault(_Human),_DummyComputer=require("../players/DummyComputer"),_DummyComputer2=_interopRequireDefault(_DummyComputer),_AverageComputer=require("../players/AverageComputer"),_AverageComputer2=_interopRequireDefault(_AverageComputer),_SmartComputer=require("../players/SmartComputer"),_SmartComputer2=_interopRequireDefault(_SmartComputer),_i18n=require("../misc/i18n"),_i18n2=_interopRequireDefault(_i18n),_marked=[generateComputers].map(regeneratorRuntime.mark),Organizer=function(){function e(){_classCallCheck(this,e)}return _createClass(e,null,[{key:"createGame",value:function(e){return e||(e={}),e.players=createPlayers(e),new _Game2["default"](e)}}]),e}();exports["default"]=Organizer;
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Game = require('./Game');
+
+var _Game2 = _interopRequireDefault(_Game);
+
+var _Human = require('../players/Human');
+
+var _Human2 = _interopRequireDefault(_Human);
+
+var _DummyComputer = require('../players/DummyComputer');
+
+var _DummyComputer2 = _interopRequireDefault(_DummyComputer);
+
+var _AverageComputer = require('../players/AverageComputer');
+
+var _AverageComputer2 = _interopRequireDefault(_AverageComputer);
+
+var _SmartComputer = require('../players/SmartComputer');
+
+var _SmartComputer2 = _interopRequireDefault(_SmartComputer);
+
+var _i18n = require('../misc/i18n');
+
+var _i18n2 = _interopRequireDefault(_i18n);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _marked = [generateComputers].map(regeneratorRuntime.mark);
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+// Creates a new game using options with properties of primitive types.
+
+var Organizer = function () {
+  function Organizer() {
+    _classCallCheck(this, Organizer);
+  }
+
+  _createClass(Organizer, null, [{
+    key: 'createGame',
+    value: function createGame(options) {
+      options || (options = {});
+      options.players = createPlayers(options);
+      return new _Game2.default(options);
+    }
+  }]);
+
+  return Organizer;
+}();
+
+function createPlayers(options) {
+  var playerCount;
+  if (options.players == null) {
+    playerCount = 2 + Math.trunc(Math.random() * 3);
+  } else {
+    playerCount = parseInt(options.players, 10);
+  }
+  if (isNaN(playerCount)) {
+    return createSpecificPlayers(options.players, options.human);
+  }
+  return createRandomPlayers(playerCount, options.human);
+}
+
+function createSpecificPlayers(players, human) {
+  var playerClasses = {
+    human: _Human2.default,
+    smart: _SmartComputer2.default,
+    average: _AverageComputer2.default,
+    dummy: _DummyComputer2.default
+  },
+      players = players.split(',').map(function (player) {
+    player = player.trim().toLowerCase();
+    var PlayerClass = playerClasses[player];
+    if (!PlayerClass) {
+      throw new Error(_i18n2.default.translate('Invalid player: "$[1]".', player));
+    }
+    return new PlayerClass();
+  }),
+      humanIndex = parseHumanIndex(human, players.length + 1);
+  if (humanIndex) {
+    players.splice(humanIndex - 1, 0, new _Human2.default());
+  }
+  if (players.length < 2) {
+    throw new Error(_i18n2.default.translate('Two players are the minimum.'));
+  }
+  return players;
+}
+
+function createRandomPlayers(count, human) {
+  if (count < 2) {
+    throw new Error(_i18n2.default.translate('Two players are the minimum.'));
+  }
+  var humanIndex = parseHumanIndex(human, count),
+      computers = generateComputers();
+  return [].concat(_toConsumableArray(Array(count).keys())).map(function (index) {
+    return index + 1 === humanIndex ? new _Human2.default() : computers.next().value;
+  });
+}
+
+function parseHumanIndex(human, playerCount) {
+  if (human === 'random') {
+    return 1 + Math.trunc(Math.random() * playerCount);
+  }
+  if (human != null) {
+    var humanIndex = parseInt(human, 10);
+    if (isNaN(humanIndex)) {
+      throw new Error(_i18n2.default.translate('Invalid human player index.'));
+    }
+    if (humanIndex < 1 || humanIndex > playerCount) {
+      throw new Error(_i18n2.default.translate('Index of the human player out of range.'));
+    }
+    return humanIndex;
+  }
+}
+
+function generateComputers() {
+  var which;
+  return regeneratorRuntime.wrap(function generateComputers$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          which = Math.trunc(Math.random() * 3);
+          _context.t0 = which;
+          _context.next = _context.t0 === 0 ? 4 : _context.t0 === 1 ? 7 : _context.t0 === 2 ? 10 : 13;
+          break;
+
+        case 4:
+          _context.next = 6;
+          return new _SmartComputer2.default();
+
+        case 6:
+          return _context.abrupt('break', 13);
+
+        case 7:
+          _context.next = 9;
+          return new _AverageComputer2.default();
+
+        case 9:
+          return _context.abrupt('break', 13);
+
+        case 10:
+          _context.next = 12;
+          return new _DummyComputer2.default();
+
+        case 12:
+          return _context.abrupt('break', 13);
+
+        case 13:
+          _context.next = 0;
+          break;
+
+        case 15:
+        case 'end':
+          return _context.stop();
+      }
+    }
+  }, _marked[0], this);
+}
+
+exports.default = Organizer;
 //# sourceMappingURL=Organizer.js.map

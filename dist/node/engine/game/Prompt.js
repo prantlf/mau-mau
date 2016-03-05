@@ -1,2 +1,27 @@
-"use strict";function _classCallCheck(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var _createClass=function(){function e(e,t){for(var a=0;a<t.length;a++){var n=t[a];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,a,n){return a&&e(t.prototype,a),n&&e(t,n),t}}();Object.defineProperty(exports,"__esModule",{value:!0});var Prompt=function(){function e(){_classCallCheck(this,e)}return _createClass(e,[{key:"attachGame",value:function(e){this.game=e}}]),e}();exports["default"]=Prompt;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Prompt = function () {
+  function Prompt() {
+    _classCallCheck(this, Prompt);
+  }
+
+  _createClass(Prompt, [{
+    key: "attachGame",
+    value: function attachGame(game) {
+      this.game = game;
+    }
+  }]);
+
+  return Prompt;
+}();
+
+exports.default = Prompt;
 //# sourceMappingURL=Prompt.js.map

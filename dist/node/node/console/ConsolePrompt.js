@@ -1,2 +1,136 @@
-"use strict";function _interopRequireDefault(e){return e&&e.__esModule?e:{"default":e}}function _classCallCheck(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function _possibleConstructorReturn(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!=typeof t&&"function"!=typeof t?e:t}function _inherits(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}function _chooseCard(e){var t=this;return new Promise(function(n,a){var r=t.game.rules.pickPlayableCards(e.hand),u=e.hand.pickCards(function(e){return r.indexOf(e)<0}).map(function(e){return new _inquirer2["default"].Separator(_i18n2["default"].translate("Hold $[1]",e))}),i=r.map(function(e){return{name:_i18n2["default"].translate("Play $[1]",e),value:e}}),o=t.game.playingStack.peekAtTopCard(),s=o.rank===_Ranks2["default"].queen&&t.game.rules.chosenSuit?_i18n2["default"].translate(" and chooses $[1]",_i18n2["default"].translate(t.game.rules.chosenSuit)):"";t.game.activePlayers.forEach(function(e){console.log("  "+_i18n2["default"].translate("$[1] holds $[2] cards",e,e.hand.cardCount))}),console.log("  "+_i18n2["default"].translate("$[1] is on playing stack",o)+s),console.log("  ------------------------------"),r.length&&u.length&&i.unshift(new _inquirer2["default"].Separator),_inquirer2["default"].prompt([{name:"chosenCard",type:"list",message:_i18n2["default"].translate("$[1], choose a card to play or draw a new one",e),choices:u.concat(i,new _inquirer2["default"].Separator,{name:_i18n2["default"].translate("Draw new card"),value:null})}],function(r){if(r.chosenCard){var u=r.chosenCard;u.rank===_Ranks2["default"].queen&&e.hand.cardCount>1?chooseSuit.call(t).then(function(){n(u)}):n(u)}else a()})})}function chooseSuit(){var e=this;return new Promise(function(t){_inquirer2["default"].prompt([{name:"chosenSuit",type:"list",message:_i18n2["default"].translate("Choose a suit"),choices:[{name:_i18n2["default"].translate(_Suits2["default"].hearts),value:_Suits2["default"].hearts},{name:_i18n2["default"].translate(_Suits2["default"].bells),value:_Suits2["default"].bells},{name:_i18n2["default"].translate(_Suits2["default"].acorns),value:_Suits2["default"].acorns},{name:_i18n2["default"].translate(_Suits2["default"].leaves),value:_Suits2["default"].leaves}]}],function(n){e.game.rules.chosenSuit=n.chosenSuit,t()})})}var _createClass=function(){function e(e,t){for(var n=0;n<t.length;n++){var a=t[n];a.enumerable=a.enumerable||!1,a.configurable=!0,"value"in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}();Object.defineProperty(exports,"__esModule",{value:!0});var _Prompt2=require("../../engine/game/Prompt"),_Prompt3=_interopRequireDefault(_Prompt2),_Ranks=require("../../engine/cards/Ranks"),_Ranks2=_interopRequireDefault(_Ranks),_Suits=require("../../engine/cards/Suits"),_Suits2=_interopRequireDefault(_Suits),_inquirer=require("inquirer"),_inquirer2=_interopRequireDefault(_inquirer),_i18n=require("../../engine/misc/i18n"),_i18n2=_interopRequireDefault(_i18n),ConsolePrompt=function(e){function t(){return _classCallCheck(this,t),_possibleConstructorReturn(this,Object.getPrototypeOf(t).apply(this,arguments))}return _inherits(t,e),_createClass(t,[{key:"chooseCard",value:function(e){return _chooseCard.call(this,e)}}]),t}(_Prompt3["default"]);exports["default"]=ConsolePrompt;
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Prompt2 = require('../../engine/game/Prompt');
+
+var _Prompt3 = _interopRequireDefault(_Prompt2);
+
+var _Ranks = require('../../engine/cards/Ranks');
+
+var _Ranks2 = _interopRequireDefault(_Ranks);
+
+var _Suits = require('../../engine/cards/Suits');
+
+var _Suits2 = _interopRequireDefault(_Suits);
+
+var _inquirer = require('inquirer');
+
+var _inquirer2 = _interopRequireDefault(_inquirer);
+
+var _i18n = require('../../engine/misc/i18n');
+
+var _i18n2 = _interopRequireDefault(_i18n);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ConsolePrompt = function (_Prompt) {
+  _inherits(ConsolePrompt, _Prompt);
+
+  function ConsolePrompt() {
+    _classCallCheck(this, ConsolePrompt);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(ConsolePrompt).apply(this, arguments));
+  }
+
+  _createClass(ConsolePrompt, [{
+    key: 'chooseCard',
+    value: function chooseCard(player) {
+      return _chooseCard.call(this, player);
+    }
+  }]);
+
+  return ConsolePrompt;
+}(_Prompt3.default);
+
+function _chooseCard(player) {
+  var _this2 = this;
+
+  return new Promise(function (resolve, reject) {
+    var playableCards = _this2.game.rules.pickPlayableCards(player.hand),
+        otherCards = player.hand.pickCards(function (card) {
+      return playableCards.indexOf(card) < 0;
+    }).map(function (card) {
+      return new _inquirer2.default.Separator(_i18n2.default.translate('Hold $[1]', card));
+    }),
+        cardChoices = playableCards.map(function (card) {
+      return {
+        name: _i18n2.default.translate('Play $[1]', card),
+        value: card
+      };
+    }),
+        topCard = _this2.game.playingStack.peekAtTopCard(),
+        chosenSuit = topCard.rank === _Ranks2.default.queen && _this2.game.rules.chosenSuit ? _i18n2.default.translate(' and chooses $[1]', _i18n2.default.translate(_this2.game.rules.chosenSuit)) : '';
+    _this2.game.activePlayers.forEach(function (player) {
+      console.log('  ' + _i18n2.default.translate('$[1] holds $[2] cards', player, player.hand.cardCount));
+    });
+    console.log('  ' + _i18n2.default.translate('$[1] is on playing stack', topCard) + chosenSuit);
+    console.log('  ------------------------------');
+    if (playableCards.length && otherCards.length) {
+      cardChoices.unshift(new _inquirer2.default.Separator());
+    }
+    _inquirer2.default.prompt([{
+      name: 'chosenCard',
+      type: 'list',
+      message: _i18n2.default.translate('$[1], choose a card to play or draw a new one', player),
+      choices: otherCards.concat(cardChoices, new _inquirer2.default.Separator(), {
+        name: _i18n2.default.translate('Draw new card'),
+        value: null
+      })
+    }], function (answer) {
+      if (answer.chosenCard) {
+        var chosenCard = answer.chosenCard;
+        if (chosenCard.rank === _Ranks2.default.queen && player.hand.cardCount > 1) {
+          chooseSuit.call(_this2).then(function () {
+            resolve(chosenCard);
+          });
+        } else {
+          resolve(chosenCard);
+        }
+      } else {
+        reject();
+      }
+    });
+  });
+}
+
+function chooseSuit() {
+  var _this3 = this;
+
+  return new Promise(function (resolve) {
+    _inquirer2.default.prompt([{
+      name: 'chosenSuit',
+      type: 'list',
+      message: _i18n2.default.translate('Choose a suit'),
+      choices: [{
+        name: _i18n2.default.translate(_Suits2.default.hearts),
+        value: _Suits2.default.hearts
+      }, {
+        name: _i18n2.default.translate(_Suits2.default.bells),
+        value: _Suits2.default.bells
+      }, {
+        name: _i18n2.default.translate(_Suits2.default.acorns),
+        value: _Suits2.default.acorns
+      }, {
+        name: _i18n2.default.translate(_Suits2.default.leaves),
+        value: _Suits2.default.leaves
+      }]
+    }], function (answer) {
+      _this3.game.rules.chosenSuit = answer.chosenSuit;
+      resolve();
+    });
+  });
+}
+
+exports.default = ConsolePrompt;
 //# sourceMappingURL=ConsolePrompt.js.map

@@ -1,2 +1,43 @@
-"use strict";function _interopRequireDefault(e){return e&&e.__esModule?e:{"default":e}}function _classCallCheck(e,o){if(!(e instanceof o))throw new TypeError("Cannot call a class as a function")}function getPlayerColor(e){return["red","green","yellow","cyan"][e%4]}var _typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol?"symbol":typeof e};Object.defineProperty(exports,"__esModule",{value:!0});var _chalk=require("chalk"),_chalk2=_interopRequireDefault(_chalk),ConsoleTracer=function e(o){_classCallCheck(this,e),o.on("reporter:message",function(e){if("object"===("undefined"==typeof e?"undefined":_typeof(e)))if(void 0!==e.playerIndex){var o=_chalk2["default"][getPlayerColor(e.playerIndex)];e.important&&(o=o.bold),e=o(e.message)}else e=e.divider?"----------------------------------------":e.message;console.log(e)})};exports["default"]=ConsoleTracer;
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+var _chalk = require('chalk');
+
+var _chalk2 = _interopRequireDefault(_chalk);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ConsoleTracer = function ConsoleTracer(reporter) {
+  _classCallCheck(this, ConsoleTracer);
+
+  reporter.on('reporter:message', function (message) {
+    if ((typeof message === 'undefined' ? 'undefined' : _typeof(message)) === 'object') {
+      if (message.playerIndex !== undefined) {
+        var method = _chalk2.default[getPlayerColor(message.playerIndex)];
+        if (message.important) {
+          method = method.bold;
+        }
+        message = method(message.message);
+      } else if (message.divider) {
+        message = '----------------------------------------';
+      } else {
+        message = message.message;
+      }
+    }
+    console.log(message);
+  });
+};
+
+function getPlayerColor(playerIndex) {
+  return ['red', 'green', 'yellow', 'cyan'][playerIndex % 4];
+}
+
+exports.default = ConsoleTracer;
 //# sourceMappingURL=ConsoleTracer.js.map
