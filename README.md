@@ -153,6 +153,7 @@ your code using Gulp.
 
 ## Release History
 
+ * 2016-03-05   v0.4.0   Rename "dummy" computer player to "poor"
  * 2016-03-05   v0.3.1   Fix playing engine of the smart computer
  * 2016-02-01   v0.3.0   Make the game opening more random
  * 2016-01-24   v0.2.1   Add an average player, improve the smart one
