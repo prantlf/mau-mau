@@ -16,9 +16,6 @@ var argv = require('yargs').argv,
     path = require('path'),
     run = require('run-sequence');
 
-// Support generators in the code transpiled by Babel when the tests are run
-require('babel-polyfill');
-
 // Do not stop gulp.watch after the first  build error
 var _gulpsrc = gulp.src;
 gulp.src = function () {
@@ -106,8 +103,8 @@ gulp.task('coverage-node', function () {
       .pipe(gulp.dest('coverage'))
       .pipe(coverage.enforce({
         statements: 70,
-        blocks: 60,
-        lines: 90,
+        blocks: 70,
+        lines: 80,
         uncovered: 0 
       }));
 });

@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import {expect} from 'chai';
 import Organizer from '../../../node/engine/game/Organizer';
 import Human from '../../../node/engine/players/Human';

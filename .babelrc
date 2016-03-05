@@ -1,4 +1,8 @@
 {
   "presets": ["es2015"],
-  "plugins": ["transform-strict-mode", "transform-regenerator"]
+  "plugins": [
+    "transform-es2015-classes", "transform-regenerator",
+    "transform-strict-mode"
+    //"transform-runtime"
+  ]
 }
