@@ -12,9 +12,9 @@ var _Human = require('../engine/players/Human');
 
 var _Human2 = _interopRequireDefault(_Human);
 
-var _DummyComputer = require('../engine/players/DummyComputer');
+var _PoorComputer = require('../engine/players/PoorComputer');
 
-var _DummyComputer2 = _interopRequireDefault(_DummyComputer);
+var _PoorComputer2 = _interopRequireDefault(_PoorComputer);
 
 var _AverageComputer = require('../engine/players/AverageComputer');
 
@@ -54,8 +54,8 @@ var propertyFile = _path2.default.join(__dirname, '../../../package.json'),
     properties = JSON.parse(_fs2.default.readFileSync(propertyFile, 'utf-8')),
     commander = require('commander').version(properties.version).description('Starts a new mau-mau card game,' + ' interacting on the console.  One-based\n' + '  index of the winning player is returned' + ' as the program exit code.').usage('[option]').option('-p, --players <integer|list>', 'Player count (2-4 by default) or list').option('-m, --human <integer|random>', 'One-based index of the human player or the\n' + '                              ' + 'text "random" (nothing by default)', parseIntegerArgument).option('-s, --silent', 'No console output (false by default)').option('-l, --language <locale>', 'Translation of texts (env.LANG by default)').option('--continue-to-end <yes|no>', 'Play until the last player remains with\n' + '                              ' + 'some cards in his hand (yes by default)', parseBooleanArgument, true).option('--cards-per-player <integer>', 'Number of cards that the players are dealt\n' + '                              ' + 'at the beginning (4 by default)', parseIntegerArgument, 4).option('--players-per-deck <integer>', 'Player count threshold to add another card\n' + '                              ' + 'deck (4 by default; 5 means another deck)', parseIntegerArgument, 4).on('--help', function () {
   console.log('  Player list is a comma-delimited list' + ' of player implementations: "human",');
-  console.log('  "smart", "average" and "dummy"' + ' identifiers are available.  A random');
-  console.log('  variation of "smart,average,dummy" is the default.');
+  console.log('  "smart", "average" and "poor"' + ' identifiers are available.  A random');
+  console.log('  variation of "smart,average,poor" is the default.');
   var translations = _i18n2.default.getTranslations(),
 
   // Take any text - seven card rank, for example.

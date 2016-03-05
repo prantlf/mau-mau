@@ -14,9 +14,9 @@ var _Human = require('../players/Human');
 
 var _Human2 = _interopRequireDefault(_Human);
 
-var _DummyComputer = require('../players/DummyComputer');
+var _PoorComputer = require('../players/PoorComputer');
 
-var _DummyComputer2 = _interopRequireDefault(_DummyComputer);
+var _PoorComputer2 = _interopRequireDefault(_PoorComputer);
 
 var _AverageComputer = require('../players/AverageComputer');
 
@@ -75,7 +75,7 @@ function createSpecificPlayers(players, human) {
     human: _Human2.default,
     smart: _SmartComputer2.default,
     average: _AverageComputer2.default,
-    dummy: _DummyComputer2.default
+    poor: _PoorComputer2.default
   },
       players = players.split(',').map(function (player) {
     player = player.trim().toLowerCase();
@@ -149,7 +149,7 @@ function generateComputers() {
 
         case 10:
           _context.next = 12;
-          return new _DummyComputer2.default();
+          return new _PoorComputer2.default();
 
         case 12:
           return _context.abrupt('break', 13);

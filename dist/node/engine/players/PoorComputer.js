@@ -29,16 +29,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // Plays a random playable card from his hand.  If the card is a queen,
 // he wishes the suit of a random remaining card in his hand.
 
-var DummyComputer = function (_Computer) {
-  _inherits(DummyComputer, _Computer);
+var PoorComputer = function (_Computer) {
+  _inherits(PoorComputer, _Computer);
 
-  function DummyComputer() {
-    _classCallCheck(this, DummyComputer);
+  function PoorComputer() {
+    _classCallCheck(this, PoorComputer);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(DummyComputer).apply(this, arguments));
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(PoorComputer).apply(this, arguments));
   }
 
-  _createClass(DummyComputer, [{
+  _createClass(PoorComputer, [{
     key: 'chooseCard',
     value: function chooseCard() {
       var availableCards = this.hand.pickCards(),
@@ -55,11 +55,11 @@ var DummyComputer = function (_Computer) {
   }, {
     key: 'toString',
     value: function toString() {
-      return _i18n2.default.translate('dummy $[1]', _Computer3.default.prototype.toString.apply(this, arguments));
+      return _i18n2.default.translate('poor $[1]', _Computer3.default.prototype.toString.apply(this, arguments));
     }
   }]);
 
-  return DummyComputer;
+  return PoorComputer;
 }(_Computer3.default);
 
 function suggestCard(availableCards, playableCards) {
@@ -88,5 +88,5 @@ function pickRandomCard(cards) {
   return cards[cardIndex];
 }
 
-exports.default = DummyComputer;
-//# sourceMappingURL=DummyComputer.js.map
+exports.default = PoorComputer;
+//# sourceMappingURL=PoorComputer.js.map

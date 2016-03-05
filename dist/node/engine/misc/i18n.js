@@ -130,9 +130,9 @@ exports.default = new I18N({
     'de': 'normaler $[1]',
     'cs': 'průměrný'
   },
-  'dummy $[1]': {
-    'de': 'dummer $[1]',
-    'cs': 'hloupý $[1]'
+  'poor $[1]': {
+    'de': 'schwach $[1]',
+    'cs': 'slabý $[1]'
   },
   // Organizer
   'Two players are the minimum.': {
