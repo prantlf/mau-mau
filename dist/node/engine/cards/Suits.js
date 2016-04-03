@@ -1,17 +1,2 @@
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var Suits = {
-  hearts: 'hearts',
-  bells: 'bells',
-  acorns: 'acorns',
-  leaves: 'leaves'
-};
-
-// Avoid accidental changing of existing suits
-Object.freeze(Suits);
-
-exports.default = Suits;
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0});var Suits={hearts:"hearts",bells:"bells",acorns:"acorns",leaves:"leaves"};Object.freeze(Suits),exports["default"]=Suits;
 //# sourceMappingURL=Suits.js.map
