@@ -125,4 +125,4 @@ game.on('game:cannot-draw-cards', function () {
 });
 
 exports.default = game.start.bind(game);
-//# sourceMappingURL=play.js.map
+//# sourceMappingURL=serve.js.map

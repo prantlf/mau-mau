@@ -1,2 +1,38 @@
-"use strict";function _interopRequireDefault(e){return e&&e.__esModule?e:{"default":e}}function _classCallCheck(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}Object.defineProperty(exports,"__esModule",{value:!0});var _createClass=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),_i18n=require("../misc/i18n"),_i18n2=_interopRequireDefault(_i18n),Card=function(){function e(t,n){_classCallCheck(this,e),this.suit=t,this.rank=n,Object.freeze(this)}return _createClass(e,[{key:"toString",value:function(){return _i18n2["default"].translate("$[1] $[2]",_i18n2["default"].translate(this.rank),_i18n2["default"].translate(this.suit))}}]),e}();exports["default"]=Card;
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _i18n = require('../misc/i18n');
+
+var _i18n2 = _interopRequireDefault(_i18n);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Card = function () {
+  function Card(suit, rank) {
+    _classCallCheck(this, Card);
+
+    this.suit = suit;
+    this.rank = rank;
+    // No tinkering with the card after it was "printed"
+    Object.freeze(this);
+  }
+
+  _createClass(Card, [{
+    key: 'toString',
+    value: function toString() {
+      return _i18n2.default.translate('$[1] $[2]', _i18n2.default.translate(this.rank), _i18n2.default.translate(this.suit));
+    }
+  }]);
+
+  return Card;
+}();
+
+exports.default = Card;
 //# sourceMappingURL=Card.js.map

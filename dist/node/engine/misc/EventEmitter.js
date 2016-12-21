@@ -1,2 +1,116 @@
-"use strict";function _classCallCheck(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function addListener(e,t){var n=this.listeners[e];return n||(n=this.listeners[e]=[]),n.push(t),n}function _removeListener(e,t,n,r,i,s){n.length>1?(n.splice(r,1),i||(i=n.once),i&&(void 0!==s||(s=i.indexOf(t)),removeOnceListener(n,i,s))):delete this.listeners[e]}function removeOnceListener(e,t,n){n>=0&&(t.length>1?t.splice(n,1):delete e.once)}Object.defineProperty(exports,"__esModule",{value:!0});var _createClass=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),EventEmitter=function(){function e(){_classCallCheck(this,e),this.listeners={},this.onceOnly={}}return _createClass(e,[{key:"emit",value:function(e){var t=this,n=this.listeners[e];if(n){var r=Array.prototype.slice.call(arguments,1);n.forEach(function(i,s){i.apply(t,r);var l=n.once;if(l){var o=l.indexOf(i);o>=0&&_removeListener.call(t,e,i,n,s,l,o)}})}}},{key:"on",value:function(e,t){return addListener.call(this,e,t),this}},{key:"once",value:function t(e,n){var r=addListener.call(this,e,n),t=r.once||(r.once=[]);return t.push(n),this}},{key:"removeListener",value:function(e,t){var n=this.listeners[e];if(n){var r=n.indexOf(t);r>=0&&_removeListener.call(this,e,t,n,r)}}},{key:"removeAllListeners",value:function(e){e?delete this.listeners[e]:this.listeners={}}}]),e}();EventEmitter.prototype.addListener=EventEmitter.prototype.on,exports["default"]=EventEmitter;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+// I should want to optimize the event removal without so many parameters
+/*eslint max-params: [2, 6]*/
+
+var EventEmitter = function () {
+  function EventEmitter() {
+    _classCallCheck(this, EventEmitter);
+
+    this.listeners = {};
+    this.onceOnly = {};
+  }
+
+  _createClass(EventEmitter, [{
+    key: "emit",
+    value: function emit(event) {
+      var _this = this;
+
+      var listeners = this.listeners[event];
+      if (listeners) {
+        var parameters = Array.prototype.slice.call(arguments, 1);
+        listeners.forEach(function (listener, index) {
+          listener.apply(_this, parameters);
+          var once = listeners.once;
+          if (once) {
+            var onceIndex = once.indexOf(listener);
+            if (onceIndex >= 0) {
+              _removeListener.call(_this, event, listener, listeners, index, once, onceIndex);
+            }
+          }
+        });
+      }
+    }
+  }, {
+    key: "on",
+    value: function on(event, listener) {
+      addListener.call(this, event, listener);
+      return this;
+    }
+  }, {
+    key: "once",
+    value: function once(event, listener) {
+      var listeners = addListener.call(this, event, listener),
+          once = listeners.once || (listeners.once = []);
+      once.push(listener);
+      return this;
+    }
+  }, {
+    key: "removeListener",
+    value: function removeListener(event, listener) {
+      var listeners = this.listeners[event];
+      if (listeners) {
+        var index = listeners.indexOf(listener);
+        if (index >= 0) {
+          _removeListener.call(this, event, listener, listeners, index);
+        }
+      }
+    }
+  }, {
+    key: "removeAllListeners",
+    value: function removeAllListeners(event) {
+      if (event) {
+        delete this.listeners[event];
+      } else {
+        this.listeners = {};
+      }
+    }
+  }]);
+
+  return EventEmitter;
+}();
+
+EventEmitter.prototype.addListener = EventEmitter.prototype.on;
+
+function addListener(event, listener) {
+  var listeners = this.listeners[event];
+  if (!listeners) {
+    listeners = this.listeners[event] = [];
+  }
+  listeners.push(listener);
+  return listeners;
+}
+
+function _removeListener(event, listener, listeners, index, once, onceIndex) {
+  if (listeners.length > 1) {
+    listeners.splice(index, 1);
+    once || (once = listeners.once);
+    if (once) {
+      onceIndex !== undefined || (onceIndex = once.indexOf(listener));
+      removeOnceListener(listeners, once, onceIndex);
+    }
+  } else {
+    delete this.listeners[event];
+  }
+}
+
+function removeOnceListener(listeners, once, onceIndex) {
+  if (onceIndex >= 0) {
+    if (once.length > 1) {
+      once.splice(onceIndex, 1);
+    } else {
+      delete listeners.once;
+    }
+  }
+}
+
+exports.default = EventEmitter;
 //# sourceMappingURL=EventEmitter.js.map
