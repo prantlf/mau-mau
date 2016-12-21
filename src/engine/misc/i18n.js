@@ -102,7 +102,7 @@ export default new I18N({
     'cs': 'průměrný'
   },
   'poor $[1]': {
-    'de': 'schwach $[1]',
+    'de': 'schwacher $[1]',
     'cs': 'slabý $[1]'
   },
   // Organizer
