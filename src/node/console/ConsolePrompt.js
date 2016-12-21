@@ -56,7 +56,7 @@ function chooseCard(player) {
             name: i18n.translate('Draw new card'),
             value: null
           })
-    }], answer => {
+    }]).then(answer => {
       if (answer.chosenCard) {
         var chosenCard = answer.chosenCard;
         if (chosenCard.rank === Ranks.queen && player.hand.cardCount > 1) {
@@ -74,28 +74,25 @@ function chooseCard(player) {
 }
 
 function chooseSuit() {
-  return new Promise((resolve) => {
-    inquirer.prompt([{
-      name: 'chosenSuit',
-      type: 'list',
-      message: i18n.translate('Choose a suit'),
-      choices: [{
-        name: i18n.translate(Suits.hearts),
-        value: Suits.hearts
-      }, {
-        name: i18n.translate(Suits.bells),
-        value: Suits.bells
-      }, {
-        name: i18n.translate(Suits.acorns),
-        value: Suits.acorns
-      }, {
-        name: i18n.translate(Suits.leaves),
-        value: Suits.leaves
-      }]
-    }], answer => {
-      this.game.rules.chosenSuit = answer.chosenSuit;
-      resolve();
-    });
+  return inquirer.prompt([{
+    name: 'chosenSuit',
+    type: 'list',
+    message: i18n.translate('Choose a suit'),
+    choices: [{
+      name: i18n.translate(Suits.hearts),
+      value: Suits.hearts
+    }, {
+      name: i18n.translate(Suits.bells),
+      value: Suits.bells
+    }, {
+      name: i18n.translate(Suits.acorns),
+      value: Suits.acorns
+    }, {
+      name: i18n.translate(Suits.leaves),
+      value: Suits.leaves
+    }]
+  }]).then(answer => {
+    this.game.rules.chosenSuit = answer.chosenSuit;
   });
 }
 

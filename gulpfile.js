@@ -9,7 +9,7 @@ var argv = require('yargs').argv,
     mocha = require('gulp-mocha'),
     notifier = require('node-notifier'),
     plumber = require('gulp-plumber'),
-    relativeSourcemapsSource = require('gulp-relative-sourcemaps-source'),
+    source = require('vinyl-source-stream'),
     sourcemaps = require('gulp-sourcemaps'),
     uglify = require('gulp-uglify'),
     gutil = require('gulp-util'),
@@ -61,10 +61,9 @@ gulp.task('babel-node', function () {
       .pipe(sourcemaps.init())
       .pipe(babel())
       .pipe(gulpif(argv.release, uglify().on('error', gutil.log)))
-      .pipe(relativeSourcemapsSource({dest: 'dist/node'}))
       .pipe(sourcemaps.write('.', {
         includeContent: false,
-        sourceRoot: '.'
+        sourceRoot: '../../src'
       }))
       .pipe(gulp.dest('dist/node'));
 });
@@ -74,10 +73,9 @@ gulp.task('babel-node-test', function () {
       .pipe(sourcemaps.init())
       .pipe(babel())
       .pipe(gulpif(argv.release, uglify().on('error', gutil.log)))
-      .pipe(relativeSourcemapsSource({dest: 'dist/test'}))
       .pipe(sourcemaps.write('.', {
         includeContent: false,
-        sourceRoot: '.'
+        sourceRoot: '../../src'
       }))
       .pipe(gulp.dest('dist/test'));
 });

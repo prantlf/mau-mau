@@ -64,9 +64,9 @@
     // Legacy
     "max-len": [1, 80, 2],           // specify the maximum length of a line in your program (off by default)
     "max-depth": [2, 4],             // specify the maximum depth blocks can be nested
-    "max-nested-callbacks": [2, 3],  // set maximum depth of nested callbacks
+    "max-nested-callbacks": [2, 4],  // set maximum depth of nested callbacks
     "max-params": [2, 3],            // limit maximum number of parameters
-    "max-statements": [2, 12],       // specify the maximum number of statements allowed in a function
+    "max-statements": [2, 16],       // specify the maximum number of statements allowed in a function
     "complexity": [2, 6]             // set a cyclomatic complexity threshold
   }
 }
