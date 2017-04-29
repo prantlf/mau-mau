@@ -1,5 +1,7 @@
 # Mau-Mau [![NPM version](https://badge.fury.io/js/mau-mau.png)](http://badge.fury.io/js/mau-mau) [![Build Status](https://travis-ci.org/prantlf/mau-mau.png)](https://travis-ci.org/prantlf/mau-mau) [![Coverage Status](https://coveralls.io/repos/prantlf/mau-mau/badge.svg)](https://coveralls.io/r/prantlf/mau-mau) [![Dependency Status](https://david-dm.org/prantlf/mau-mau.svg)](https://david-dm.org/prantlf/mau-mau) [![devDependency Status](https://david-dm.org/prantlf/mau-mau/dev-status.svg)](https://david-dm.org/prantlf/mau-mau#info=devDependencies) [![devDependency Status](https://david-dm.org/prantlf/mau-mau/peer-status.svg)](https://david-dm.org/prantlf/mau-mau#info=peerDependencies) [![Code Climate](https://codeclimate.com/github/prantlf/mau-mau/badges/gpa.svg)](https://codeclimate.com/github/prantlf/mau-mau) [![Codacy Badge](https://api.codacy.com/project/badge/grade/9682822003be4cf5980c3d69490ee0d9)](https://www.codacy.com/app/prantlf/mau-mau)
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/prantlf/mau-mau.svg)](https://greenkeeper.io/)
+
 [![NPM Downloads](https://nodei.co/npm/mau-mau.png?downloads=true&stars=true)](https://www.npmjs.com/package/mau-mau)
 
 Card play for two or more players known as [Mau Mau], [Mau-Mau], [Prší]
